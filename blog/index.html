@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+	<meta charset="utf-8">
+	<meta name="google-site-verification" content="WspgQxVxWdcH8Uv1Dz0IwtlYh30gYBsa3zHrGgxB6zE">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="/ext/uikit/css/uikit.min.css">
+	<script src="/ext/uikit/js/uikit.min.js"></script>
+	<script src="/ext/uikit/js/uikit-icons.min.js"></script>
+	<script src="/ext/vue/vue.min.js"></script>
+	<script src="/ext/marked/marked.min.js"></script>
+	<script src="/ext/axios/axios.min.js"></script>
+	<title>nikory - blog</title>
+  </head>
+  <body>
+	<div class="uk-section-small">
+	  <div class="uk-container uk-container-large" id="main">
+			<nav class="uk-navbar-container">
+				<div class="uk-navbar-left">
+					<a class="uk-navbar-item uk-logo" href="/">nikori.jp</a>
+					<ul class="uk-navbar-nav">
+							<li class="uk-active">nikory (blog)</li>
+						</ul>
+						</div>
+			</nav>
+			<ul class="uk-pagination">
+				<li v-if="prevAid >= 0"><a v-on:click="goto(prevAid)"><span uk-pagination-previous></span> Previous</a></li>
+				<li class="uk-margin-auto-left" v-if="nextAid >= 0"><a v-on:click="goto(nextAid)">Next <span uk-pagination-next></span></a></li>
+			</ul>
+			<nr-article v-bind:article="article"></nr-article>
+	  </div>
+	</div>
+	<script src="./sergei.js"></script>
+  </body>
+</html>
