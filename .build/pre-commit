@@ -1,0 +1,23 @@
+#!/bin/sh
+
+CURFILE=`readlink -f "$0"`
+CURDIR=`dirname "$CURFILE"`
+
+UNIXTIME=`echo $GIT_AUTHOR_DATE | awk '{ print $1 }' | tr -d "@"`
+
+git diff-index --cached HEAD | \
+while read LINE; do
+    FILE_SRC=`echo "$LINE" | awk '{ print $6 }'`
+    FILE_DEST=`echo "$LINE" | awk '{ print $7 }'`
+
+    if [ "$FILE_DEST" != "" ]; then
+        FILE=$FILE_DEST
+    else
+        FILE=$FILE_SRC
+    fi
+    DIR=`dirname "$FILE"`
+
+    if [ "$DIR" = "blog/data" ]; then
+        echo $FILE
+    fi
+done | xargs node ${CURDIR}/update-metadata.js ${UNIXTIME} ${OPT} && git add ${CURDIR}/../blog/metadata.json
