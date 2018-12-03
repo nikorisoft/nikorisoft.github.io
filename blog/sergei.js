@@ -24,7 +24,9 @@ Vue.component("nr-article", {
     <div v-else>
         <article class="uk-article" id="article">
         <h1 class="uk-artitle-title">{{ article.meta.title }}</h1>
-        <p class="uk-article-meta">Posted on {{ postDate }} by <a v-bind:href="'http://github.com/' + article.meta.author">{{ article.meta.author }}</a></p>
+        <p class="uk-article-meta">
+            <span v-if="article.meta.updated">Last updated on {{ lastDate }}, originally posted</span>
+            <span v-else>Posted</span> on {{ postDate }} by <a v-bind:href="'http://github.com/' + article.meta.author">{{ article.meta.author }}</a></p>
         <div v-html="contents"></div>
     </div>
     `,
@@ -33,6 +35,10 @@ Vue.component("nr-article", {
     computed: {
         postDate: function () {
             const d = new Date(this.article.meta.date);
+            return d.toLocaleString();
+        },
+        lastDate: function () {
+            const d = new Date(this.article.meta.updated);
             return d.toLocaleString();
         },
         contents: function () {
