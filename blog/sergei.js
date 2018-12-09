@@ -75,7 +75,11 @@ const vm = new Vue({
             const latest = ids[ids.length - 1];
 
             const id = parseInt(location.hash.slice(1));
-            if (id > 0 && metadata[id] != null) {
+            let force = false;
+            if (location.hash.slice(-1) == "!") {
+                force = true;
+            }
+            if (id > 0 && (metadata[id] != null || force)) {
                 this.updateArticle(id);
             } else {
                 history.replaceState(null, null, "#" + latest);
@@ -95,6 +99,14 @@ const vm = new Vue({
                     data: result.data
                 };
 
+                if (this.article.meta == null) {
+                    this.article.meta = {
+                        title: "New Article",
+                        id: aid,
+                        author: "nikorisoft",
+                        date: new Date().toISOString()
+                    };
+                }
                 document.title = metadata[this.aid].title + titleSuffix;
             });            
         }
