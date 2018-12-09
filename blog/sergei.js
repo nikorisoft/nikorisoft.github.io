@@ -5,12 +5,13 @@
 "use strict";
 
 const renderer = new marked.Renderer();
+const titleSuffix = " - nikori.jp - nikory";
 
 const headingOriginal = renderer.heading;
 renderer.heading = function (text, level) {
     // Skip Level 1
     if (level > 1) {
-        return headingOriginal(text, level);
+        return "<h" + level +">" + text + "</h" + level + ">";
     } else {
         return "";
     }
@@ -93,6 +94,8 @@ const vm = new Vue({
                     meta: metadata[this.aid],
                     data: result.data
                 };
+
+                document.title = metadata[this.aid].title + titleSuffix;
             });            
         }
     }
