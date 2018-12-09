@@ -56,7 +56,7 @@ const vm = new Vue({
     el: "#main",
     data,
     created: function () {
-        axios.get("./metadata.json").then((res) => {
+        axios.get("./metadata.json?q=" + new Date().getTime()).then((res) => {
             for (const i in res.data) {
                 const article = res.data[i];
                 metadata[article.id] = article;
