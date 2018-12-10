@@ -50,7 +50,7 @@ Vue.component("nr-article", {
 
 const data = { aid: 0, article: null, prevAid: -1, nextAid: -1 };
 const metadata = {};
-let ids = [];
+const ids = [];
 
 const vm = new Vue({
     el: "#main",
@@ -60,8 +60,8 @@ const vm = new Vue({
             for (const i in res.data) {
                 const article = res.data[i];
                 metadata[article.id] = article;
+                ids.push(article.id);
             }
-            ids = Object.keys(metadata).sort();
 
             this.initArticle();
         });
