@@ -16,6 +16,9 @@ renderer.heading = function (text, level) {
         return "";
     }
 };
+renderer.table = function (header, body) {
+    return "<table class=\"uk-table uk-table-divider uk-table-small\"><thead>" + header + "</thead><tbody>" + body + "</tbody></table>";
+}
 
 Vue.component("nr-article", {
     template: `
