@@ -19,15 +19,11 @@
 				<div class="uk-navbar-left">
 					<a class="uk-navbar-item uk-logo" href="/">nikori.jp</a>
 					<ul class="uk-navbar-nav">
-							<li class="uk-active">nikori.jp - nikory</li>
+							<li><a href="./">Latest Article</a></li>
 					</ul>
 				</div>
 			</nav>
-			<ul class="uk-pagination">
-				<li v-if="prevAid >= 0"><a v-on:click="goto(prevAid)"><span uk-pagination-previous></span> Previous</a></li>
-				<li class="uk-margin-auto-left" v-if="nextAid >= 0"><a v-on:click="goto(nextAid)">Next <span uk-pagination-next></span></a></li>
-			</ul>
-			<nr-article v-bind:article="article"></nr-article>
+			<nr-article v-bind:article="article" v-on:goto="goto"></nr-article>
 			<footer class="uk-margin-auto-top">
 					<p class="uk-text-small uk-text-muted uk-text-center">Copyright &copy; 2018 nikorisoft - Ver. 0.12</p>
 			</footer>

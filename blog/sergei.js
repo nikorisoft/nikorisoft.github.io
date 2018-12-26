@@ -26,15 +26,20 @@ Vue.component("nr-article", {
         <div uk-spinner></div>
     </div>
     <div v-else>
+        <ul class="uk-pagination" v-if="article">
+            <li v-if="article.prev >= 0"><a v-on:click="$emit('goto', article.prev)"><span uk-pagination-previous></span> Previous</a></li>
+            <li class="uk-margin-auto-left" v-if="article.next >= 0"><a v-on:click="$emit('goto', article.next)">Next <span uk-pagination-next></span></a></li>
+        </ul>
         <article class="uk-article" id="article">
-        <h1 class="uk-artitle-title">{{ article.meta.title }}</h1>
-        <p class="uk-article-meta">
-            <span v-if="article.meta.updated">Last updated on {{ lastDate }}, originally posted</span>
-            <span v-else>Posted</span> on {{ postDate }} by <a v-bind:href="'http://github.com/' + article.meta.author">{{ article.meta.author }}</a></p>
-        <div v-html="contents"></div>
+            <h1 class="uk-artitle-title">{{ article.meta.title }}</h1>
+            <p class="uk-article-meta">
+                <span v-if="article.meta.updated">Last updated on {{ lastDate }}, originally posted</span>
+                <span v-else>Posted</span> on {{ postDate }} by <a v-bind:href="'http://github.com/' + article.meta.author">{{ article.meta.author }}</a></p>
+            <div v-html="contents"></div>
+        </article>
     </div>
     `,
-    props: [ "article" ],
+    props: [ "article", "prevAid", "nextAid" ],
     data: () => ({}),
     computed: {
         postDate: function () {
@@ -99,7 +104,9 @@ const vm = new Vue({
                 this.prevAid = prev;
                 this.article = {
                     meta: metadata[this.aid],
-                    data: result.data
+                    data: result.data,
+                    prev,
+                    next
                 };
 
                 if (this.article.meta == null) {
