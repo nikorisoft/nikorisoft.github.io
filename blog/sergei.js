@@ -56,7 +56,50 @@ Vue.component("nr-article", {
     }
 });
 
-const data = { aid: 0, article: null, prevAid: -1, nextAid: -1 };
+Vue.component("nr-article-index", {
+    template: `
+    <div class="article-index">
+        <h1>Articles</h1>
+        <div class="year" v-for="articlesForYear in sorted">
+            <h2 class="uk-heading-line"><span>{{ articlesForYear.year }}</span></h2>
+            <ul>
+                <li v-for="article in articlesForYear.articles">
+                    <a v-bind:href="'#' + article.id">{{ article.title }}</a>
+                    <span class="uk-text-meta">{{ article.dateString }}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    `,
+    props: [ "articles" ],
+    data: () => ({}),
+    computed: {
+        sorted: function () {
+            const years = Object.keys(this.articles).sort().reverse();
+            const articles = [];
+            for (const i in years) {
+                const year = years[i];
+
+                articles.push({
+                    year,
+                    articles: this.articles[year].reverse().map((a) => {
+                        const d = new Date(a.date);
+                        a.dateString = d.toLocaleString();
+                        return a;
+                    })
+                });
+            }
+            return articles;
+        }
+    }
+});
+
+const MODE = {
+    INIT: "init",
+    ARTICLE: "article",
+    INDEX: "index"
+};
+const data = { aid: 0, article: null, mode: MODE.INIT, articlesByYear: {} };
 const metadata = {};
 const ids = [];
 
@@ -69,8 +112,17 @@ const vm = new Vue({
                 const article = res.data[i];
                 metadata[article.id] = article;
                 ids.push(article.id);
-            }
 
+                const created = new Date(article.date);
+                const y = created.getFullYear();
+
+                if (this.articlesByYear[y] == null) {
+                    this.articlesByYear[y] = [ article ];
+                } else {
+                    this.articlesByYear[y].push(article);
+                }
+            }
+            this.mode = MODE.ARTICLE;
             this.initArticle();
         });
     },
@@ -81,17 +133,25 @@ const vm = new Vue({
         },
         initArticle: function () {
             const latest = ids[ids.length - 1];
+            const hash = location.hash.slice(1);
 
-            const id = parseInt(location.hash.slice(1));
-            let force = false;
-            if (location.hash.slice(-1) == "!") {
-                force = true;
-            }
-            if (id > 0 && (metadata[id] != null || force)) {
-                this.updateArticle(id);
+            if (hash == "index") {
+                this.mode = MODE.INDEX;
+                document.title = "Article Index" + titleSuffix;
             } else {
-                history.replaceState(null, null, "#" + latest);
-                this.updateArticle(latest);
+                this.mode = MODE.ARTICLE;
+
+                const id = parseInt(hash);
+                let force = false;
+                if (hash.slice(-1) == "!") {
+                    force = true;
+                }
+                if (id > 0 && (metadata[id] != null || force)) {
+                    this.updateArticle(id);
+                } else {
+                    history.replaceState(null, null, "#" + latest);
+                    this.updateArticle(latest);
+                }
             }
         },
         updateArticle: function (aid) {
@@ -100,8 +160,6 @@ const vm = new Vue({
                 const { next, prev } = getNeighborArticles(aid);
 
                 this.aid = aid;
-                this.nextAid = next;
-                this.prevAid = prev;
                 this.article = {
                     meta: metadata[this.aid],
                     data: result.data,
