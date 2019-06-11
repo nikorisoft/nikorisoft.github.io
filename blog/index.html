@@ -1,36 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
-  <head>
-	<meta charset="utf-8">
-	<meta name="google-site-verification" content="WspgQxVxWdcH8Uv1Dz0IwtlYh30gYBsa3zHrGgxB6zE">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="/ext/uikit/css/uikit.min.css">
-	<script src="/ext/uikit/js/uikit.min.js"></script>
-	<script src="/ext/uikit/js/uikit-icons.min.js"></script>
-	<script src="/ext/vue/vue.min.js"></script>
-	<script src="/ext/marked/marked.min.js"></script>
-	<script src="/ext/axios/axios.min.js"></script>
-	<title>nikory - blog</title>
-  </head>
-  <body>
-	<div class="uk-section-small">
-	  <div class="uk-container uk-container-large" id="main">
-			<nav class="uk-navbar-container uk-margin-bottom">
-				<div class="uk-navbar-left">
-					<a class="uk-navbar-item uk-logo" href="/">nikori.jp</a>
-					<ul class="uk-navbar-nav">
-							<li><a href="./">Latest Article</a></li>
-							<li><a href="#index">Article Index</a></li>
-					</ul>
-				</div>
-			</nav>
-			<nr-article v-bind:article="article" v-on:goto="goto" v-if="mode == 'article'"></nr-article>
-			<nr-article-index v-bind:articles="articlesByYear" v-if="mode == 'index'"></nr-article-index>
-			<footer class="uk-margin-auto-top">
-					<p class="uk-text-small uk-text-muted uk-text-center">Copyright &copy; 2018 nikorisoft - Ver. 0.13</p>
-			</footer>
-		</div>
-	</div>
-	<script src="./sergei.js"></script>
-  </body>
+    <head>
+        <meta charset="utf-8">
+        <meta name="google-site-verification" content="WspgQxVxWdcH8Uv1Dz0IwtlYh30gYBsa3zHrGgxB6zE">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>nikory - blog</title>
+    </head>
+    <body>
+        <div id="main"></div>
+        <script src="./sergei2.bundle.js"></script>
+    </body>
 </html>
