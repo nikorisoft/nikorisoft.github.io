@@ -20,4 +20,4 @@ while read LINE; do
     if [ "$DIR" = "blog/data" ]; then
         echo $FILE
     fi
-done | xargs node ${CURDIR}/update-metadata.js ${UNIXTIME} ${OPT} && git add ${CURDIR}/../blog/metadata.json
+done | xargs node ${CURDIR}/update-metadata.js ${UNIXTIME} ${OPT} && git add ${CURDIR}/../blog/data/metadata.json

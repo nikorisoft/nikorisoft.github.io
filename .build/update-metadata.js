@@ -10,7 +10,7 @@ if (process.argv < 3) {
 const timestamp = parseInt(process.argv[2]);
 const dateString = new Date(timestamp * 1000).toISOString();
 const files = process.argv.slice(3).sort();
-const metadataFile = path.join(__dirname, "..", "blog", "metadata.json");
+const metadataFile = path.join(__dirname, "..", "blog", "data", "metadata.json");
 
 const metadata = require(metadataFile);
 
