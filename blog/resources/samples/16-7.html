@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>Sample #16-7</title>
+    </head>
+    <body>
+        <button type="button" onclick="start()">Start</button>
+        <h2>48kHz</h2>
+        <pre id="info1"></pre>
+        <pre id="info2"></pre>
+        <h2>44.1kHz</h2>
+        <pre id="info3"></pre>
+        <pre id="info4"></pre>
+        <script>
+            const ctx = new AudioContext();
+            async function decode(info, file) {
+                const wav = await ctx.decodeAudioData(await (await fetch(file + ".wav")).arrayBuffer());
+                const mp3 = await ctx.decodeAudioData(await (await fetch(file + ".mp3")).arrayBuffer());
+                const ogg = await ctx.decodeAudioData(await (await fetch(file + ".ogg")).arrayBuffer());
+                const opus = await ctx.decodeAudioData(await (await fetch(file + ".opus")).arrayBuffer());
+                const flac = await ctx.decodeAudioData(await (await fetch(file + ".flac")).arrayBuffer());
+
+                info.innerHTML = `
+                [${file}] wav:  Duration = ${wav.duration}, Length = ${wav.length}
+                [${file}] mp3:  Duration = ${mp3.duration}, Length = ${mp3.length}
+                [${file}] ogg:  Duration = ${ogg.duration}, Length = ${ogg.length}
+                [${file}] opus: Duration = ${opus.duration}, Length = ${opus.length}
+                [${file}] flac: Duration = ${flac.duration}, Length = ${flac.length}
+                `;
+            }
+            async function start() {
+                await decode(document.getElementById("info1"), "./Hana48k_00");
+                await decode(document.getElementById("info2"), "./Hana48k_01");
+                await decode(document.getElementById("info3"), "./Hana_00");
+                await decode(document.getElementById("info4"), "./Hana_01");
+            }
+        </script>
+    </body>
+</html>

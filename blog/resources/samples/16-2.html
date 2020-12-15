@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>Sample #16-2</title>
+    </head>
+    <body>
+        <button type="button" onclick="start()">Start</button>
+        <script>
+            async function start() {
+                const ctx = new AudioContext();
+
+                const wav1 = await fetch("./Hana_00.wav");
+                const wav2 = await fetch("./Hana_01.wav");
+                
+                const buffer1 = await ctx.decodeAudioData(await wav1.arrayBuffer());
+                const buffer2 = await ctx.decodeAudioData(await wav2.arrayBuffer());
+
+                const src1 = ctx.createBufferSource();
+                src1.buffer = buffer1;
+                const src2 = ctx.createBufferSource();
+                src2.buffer = buffer2;
+
+                src1.connect(ctx.destination);
+                src2.connect(ctx.destination);
+
+                src1.onended = () => {
+                    src2.start();
+                };
+                src1.start();
+            }
+        </script>
+    </body>
+</html>

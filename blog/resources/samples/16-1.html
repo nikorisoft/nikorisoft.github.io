@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>Sample #16-1</title>
+    </head>
+    <body>
+        <audio id="audio1">
+            <source src="./Hana_00.wav" type="audio/wav">
+        </audio>
+        <audio id="audio2">
+            <source src="./Hana_01.wav" type="audio/wav">
+        </audio>
+        <button type="button" onclick="start()">Start</button>
+        <script>
+            function start() {
+                const audio1 = document.getElementById("audio1");
+                const audio2 = document.getElementById("audio2");
+
+                audio1.addEventListener("ended", () => {
+                    audio2.play();
+                });
+                audio1.play();
+            }
+        </script>
+    </body>
+</html>

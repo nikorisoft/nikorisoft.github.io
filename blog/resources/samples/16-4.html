@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>Sample #16-4</title>
+    </head>
+    <body>
+        <button type="button" onclick="start()">Start</button>
+        <p id="info"></p>
+        <script>
+            async function start() {
+                const ctx = new AudioContext();
+
+                const wav1 = await fetch("./Hana48k_00.wav");
+                const wav2 = await fetch("./Hana48k_01.wav");
+                
+                const buffer1 = await ctx.decodeAudioData(await wav1.arrayBuffer());
+                const buffer2 = await ctx.decodeAudioData(await wav2.arrayBuffer());
+
+                const buffer = ctx.createBuffer(buffer1.numberOfChannels, buffer1.length + buffer2.length,
+                                                buffer1.sampleRate);
+                let ch;
+                for (ch = 0; ch < buffer1.numberOfChannels; ch++) {
+                    buffer.copyToChannel(buffer1.getChannelData(ch), ch, 0);
+                    buffer.copyToChannel(buffer2.getChannelData(ch), ch, buffer1.length);
+                }
+
+                const info = document.getElementById("info");
+                info.innerHTML = "Sampling Rate: " + buffer.sampleRate;
+
+                const src = ctx.createBufferSource();
+                src.buffer = buffer;
+                src.connect(ctx.destination);
+                src.start();
+            }
+        </script>
+    </body>
+</html>
