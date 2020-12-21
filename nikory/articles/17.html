@@ -12,9 +12,9 @@
         <title>oneworld Explorer Explorer - nikory</title>
     </head>
     <body>
-        <div class="uk-section-small"><div class="uk-container uk-container-large"><nav class="uk-navbar-container uk-margin-bottom"><div class="uk-navbar-left"><a class="uk-navbar-item uk-logo" href="/">nikori.jp</a><ul class="uk-navbar-nav"><li><a href="/nikory/articles/17.html">Latest Article</a></li><li><a href="/nikory/index.html">Article Index</a></li></ul></div></nav><div class="article"><div class="article-body"><ul class="uk-pagination"><li><a href="./16.html"><span uk-pagination-previous></span><span class="uk-margin-small-left">Previous</span></a></li><!----></ul><article class="uk-article" id="article"><h1 class="uk-article-title">oneworld Explorer Explorer</h1><p class="uk-article-meta"><span>Last updated on 12/21/2020, 11:17:59 AM, originally posted on 12/21/2020, 11:04:58 AM</span> by <a href="https://github.com/nikorisoft">nikorisoft</a><div class="contents"><p>このエントリは、<a href="https://adventar.org/calendars/4945">ニューノーマル ぴょこりんクラスタ Advent Calendar 2020</a>のために書かれたものです。</p>
+        <div class="uk-section-small"><div class="uk-container uk-container-large"><nav class="uk-navbar-container uk-margin-bottom"><div class="uk-navbar-left"><a class="uk-navbar-item uk-logo" href="/">nikori.jp</a><ul class="uk-navbar-nav"><li><a href="/nikory/articles/17.html">Latest Article</a></li><li><a href="/nikory/index.html">Article Index</a></li></ul></div></nav><div class="article"><div class="article-body"><ul class="uk-pagination"><li><a href="./16.html"><span uk-pagination-previous></span><span class="uk-margin-small-left">Previous</span></a></li><!----></ul><article class="uk-article" id="article"><h1 class="uk-article-title">oneworld Explorer Explorer</h1><p class="uk-article-meta"><span>Last updated on 12/21/2020, 11:24:42 AM, originally posted on 12/21/2020, 11:04:58 AM</span> by <a href="https://github.com/nikorisoft">nikorisoft</a><div class="contents"><p>このエントリは、<a href="https://adventar.org/calendars/4945">ニューノーマル ぴょこりんクラスタ Advent Calendar 2020</a>のために書かれたものです。</p>
 <p>さて、2020年最後の記事は、やはりoneworld Explorerです。<a href="./13.html">前回</a>は、4大陸で3大陸を上回る効率を実現できることを示しました。旅行はできていませんが発券はできたので、ほぼ確実と言ってもいいでしょう。</p>
-<p>ここまでやって経路をひたすら手で探しているのは、さすがに人間としてどうかと思われる頃合いかと思いますので、たまにはプログラムを書いて探索をしてみることにしました。本来は、最短解を探すのが理想なのですが、いろいろな課題があり、それを解決するには能力も気力も足りないので、ほどほどな結果を出すことを目標としていきましょう。</p>
+<p>ここまでやって経路をひたすら手で探しているのは、さすがに人間としてどうかと思われる頃合いかと思いますので、たまにはプログラムを書いて探索をしてみることにしました。本来は、最長解を探すのが理想なのですが、いろいろな課題があり、それを解決するには能力も気力も足りないので、ほどほどな結果を出すことを目標としていきましょう。</p>
 <p>今回は、言語の練習としてRustで書いてみました。正しい使い方でないところが随所にあるかと思いますがご容赦くださいまし。</p>
 <h2>問題と定義</h2><p>いちおう、少しフォーマルに問題を定義しましょう。</p>
 <p><em>A</em>を空港の集合とします。次に定義する距離合計値 <em>D(<em>a0</em>, <em>a1</em>, ... <em>a15</em>)</em> が最大となる<em>a0</em>, <em>a1</em>, ..., <em>a15</em> (∈<em>A</em>) を見つけるというものです。</p>
@@ -630,7 +630,7 @@ oneworld Explorerのルール違反はありません。ですが、半数の路
 <p>この探索の精度をより高めるには、存在しない路線をどうにかして削っていくロジックを加えていくしかないでしょう。しかし、若干、モグラたたき感というかシステマチックにできそうな良いアイディアがありませんので、今回はここまでとしたいと思います。特に、北アメリカは空港数が大量であり、かなりがんばらないと現実解を求めることは難しそうです。本当は4大陸とかもやりたかったのですけどね。</p>
 <p>他方、アジア～ヨーロッパ間で、SIN-LHR路線をつかうという発想がなかったため(考えれば当たり前なのですが)、今後のルート作成に参考にしたいと思います。こういった一つのルートを対象にすれば、路線が実在するかどうかを確かめることができるので、実用性があるかもしれませんね。</p>
 <p>いずれにしても、現在の世界情勢においてはこういったチケットを使うことはほぼ不可能ですし、さらに航空会社の財政状態が悪化したあと、このようなチケットが残っているかどうかも不透明です。これが未来に生かされるのか、ただの鎮魂歌になってしまうのか、前者であることを祈らざるを得ません。</p>
-<h3>ソース</h3><p>微妙ですが、いちおう<a href="https://github.com/nikorisoft/owe-explorer">ソース</a>を公開しておきます。</p>
+<h3>ソース</h3><p>READMEも何もなくて微妙ですが、いちおう<a href="https://github.com/nikorisoft/owe-explorer">ソース</a>を公開しておきます。</p>
 </div></p></article></div></div><!----><footer class="uk-margin-auto-top"><p class="uk-text-small uk-text-muted uk-text-center">Copyright © 2018-2020 nikorisoft - Ver.0.3.1-static</p></footer></div></div>
     </body>
 </html>
