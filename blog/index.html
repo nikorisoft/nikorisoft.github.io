@@ -7,7 +7,19 @@
         <title>nikory - blog</title>
     </head>
     <body>
-        <div id="main"></div>
-        <script src="./sergei2.bundle.js"></script>
+        <p>This page was moved to <a href="/nikory/">the newer blog system</a>.</p>
+        <script lang="text/javascript">
+            const hash = window.location.hash;
+            let redirectTo = "/nikory/";
+            if (hash != null && hash !== "") {
+                const re = /#\/articles\/([0-9]+)/;
+                const m = re.exec(hash);
+                if (m != null) {
+                    redirectTo = `/nikory/articles/${m[1]}.html`;
+                }
+            }
+
+            window.location.replace(redirectTo);
+        </script>
     </body>
 </html>
