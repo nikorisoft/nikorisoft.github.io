@@ -6,13 +6,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/ext/uikit/css/uikit.min.css">
         <link rel="stylesheet" href="/nikory/nikory.css">
-        <link rel="stylesheet" href="/nikory/tomorrow.css">
+        <link rel="stylesheet" href="/nikory/a11y-light.css">
         <script src="/ext/uikit/js/uikit.min.js"></script>
         <script src="/ext/uikit/js/uikit-icons.min.js"></script>
         <title>ギャップレス再生 - nikory</title>
     </head>
     <body>
-        <div class="uk-section-small"><div class="uk-container uk-container-large"><nav class="uk-navbar-container uk-margin-bottom"><div class="uk-navbar-left"><a class="uk-navbar-item uk-logo" href="/">nikori.jp</a><ul class="uk-navbar-nav"><li><a href="/nikory/articles/17.html">Latest Article</a></li><li><a href="/nikory/index.html">Article Index</a></li></ul></div></nav><div class="article"><div class="article-body"><ul class="uk-pagination"><li><a href="./15.html"><span uk-pagination-previous></span><span class="uk-margin-small-left">Previous</span></a></li><li class="uk-margin-auto-left"><a href="./17.html"><span>Next</span><span class="uk-margin-small-left" uk-pagination-next></span></a></li></ul><article class="uk-article" id="article"><h1 class="uk-article-title">ギャップレス再生</h1><p class="uk-article-meta"><span>Last updated on 12/14/2020, 7:21:33 PM, originally posted on 12/13/2020, 9:38:42 AM</span> by <a href="https://github.com/nikorisoft">nikorisoft</a><div class="contents"><p>このエントリは、<a href="https://adventar.org/calendars/4945">ニューノーマル ぴょこりんクラスタ Advent Calendar 2020</a>のために書かれたものです。</p>
+        <div class="uk-section-small"><div class="uk-container uk-container-large"><nav class="uk-navbar-container uk-margin-bottom"><div class="uk-navbar-left"><a class="uk-navbar-item uk-logo" href="/">nikori.jp</a><ul class="uk-navbar-nav"><li><a href="/nikory/articles/17.html">Latest Article</a></li><li><a href="/nikory/index.html">Article Index</a></li></ul></div></nav><div class="article"><div class="article-body"><ul class="uk-pagination"><li><a href="./15.html"><span uk-pagination-previous></span><span class="uk-margin-small-left">Previous</span></a></li><li class="uk-margin-auto-left"><a href="./17.html"><span>Next</span><span class="uk-margin-small-left" uk-pagination-next></span></a></li></ul><article class="uk-article" id="article"><h1 class="uk-article-title">ギャップレス再生</h1><p class="uk-article-meta"><span>Last updated on 12/15/2020, 12:21:33 PM, originally posted on 12/14/2020, 2:38:42 AM</span> by <a href="https://github.com/nikorisoft">nikorisoft</a><div class="contents"><p>このエントリは、<a href="https://adventar.org/calendars/4945">ニューノーマル ぴょこりんクラスタ Advent Calendar 2020</a>のために書かれたものです。</p>
 <p>個人用のサーバーにおいてある大量の楽曲をどこでも手軽に再生する方法としては、いろいろ模索した結果、Webブラウザでこれを再生するという方法が一番良いということになるでしょう。
 しかしそこで課題となるのは、ギャップレス再生(Gapless playback / seamless playback)です。これはある曲と次の曲の間に、全くギャップを置かずに(切れ目なく)再生することです。</p>
 <p>これが必要になるのは、本来はつながっている曲なのに、何らかの理由でファイルが分かれている場合、CDでいえばトラックが分かれている場合です。有名な例でいえば、ベートーヴェンの<a href="https://ja.wikipedia.org/wiki/%E4%BA%A4%E9%9F%BF%E6%9B%B2%E7%AC%AC5%E7%95%AA_(%E3%83%99%E3%83%BC%E3%83%88%E3%83%BC%E3%83%B4%E3%82%A7%E3%83%B3)">交響曲第5番 Op.67</a>です。いわゆる「運命」ですね。この曲の第3楽章と第4楽章は続けて演奏されますが、たいていのCDはここを2トラックを分けています。</p>
@@ -40,64 +40,64 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">source</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;Hana_01.wav&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;audio/wav&quot;</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">audio</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;button&quot;</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&quot;start()&quot;</span>&gt;</span>Start<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></code></pre><p>で、JavaScriptで</p>
-<pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">start</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">const</span> audio1 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;audio1&quot;</span>);
-    <span class="hljs-keyword">const</span> audio2 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;audio2&quot;</span>);
+<pre><code><span class="hljs-keyword">function</span> <span class="hljs-title function_">start</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">const</span> audio1 = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&quot;audio1&quot;</span>);
+    <span class="hljs-keyword">const</span> audio2 = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&quot;audio2&quot;</span>);
 
-    audio1.addEventListener(<span class="hljs-string">&quot;ended&quot;</span>, <span class="hljs-function">() =&gt;</span> {
-        audio2.play();
+    audio1.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;ended&quot;</span>, <span class="hljs-function">() =&gt;</span> {
+        audio2.<span class="hljs-title function_">play</span>();
     });
-    audio1.play();
+    audio1.<span class="hljs-title function_">play</span>();
 }</code></pre><p>とします。</p>
 <p>実際の<a href="../../blog/resources/samples/16-1.html">サンプル</a>です。</p>
 <h3>結果</h3><p>悲しいくらいダメですね。再生が終わってからコールバックを待って、さらにそこから新しいのを再生させるようでは無理がありますね。</p>
 <h2>WebAudio</h2><p>では、<a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Using_Web_Audio_API">WebAudio</a>を使って同じようなことをしてみましょう。</p>
-<pre><code><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">start</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">const</span> ctx = <span class="hljs-keyword">new</span> AudioContext();
+<pre><code><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">start</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">const</span> ctx = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AudioContext</span>();
 
-    <span class="hljs-keyword">const</span> wav1 = <span class="hljs-keyword">await</span> fetch(<span class="hljs-string">&quot;./Hana_00.wav&quot;</span>);
-    <span class="hljs-keyword">const</span> wav2 = <span class="hljs-keyword">await</span> fetch(<span class="hljs-string">&quot;./Hana_01.wav&quot;</span>);
+    <span class="hljs-keyword">const</span> wav1 = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&quot;./Hana_00.wav&quot;</span>);
+    <span class="hljs-keyword">const</span> wav2 = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&quot;./Hana_01.wav&quot;</span>);
+    
+    <span class="hljs-keyword">const</span> buffer1 = <span class="hljs-keyword">await</span> ctx.<span class="hljs-title function_">decodeAudioData</span>(<span class="hljs-keyword">await</span> wav1.<span class="hljs-title function_">arrayBuffer</span>());
+    <span class="hljs-keyword">const</span> buffer2 = <span class="hljs-keyword">await</span> ctx.<span class="hljs-title function_">decodeAudioData</span>(<span class="hljs-keyword">await</span> wav2.<span class="hljs-title function_">arrayBuffer</span>());
 
-    <span class="hljs-keyword">const</span> buffer1 = <span class="hljs-keyword">await</span> ctx.decodeAudioData(<span class="hljs-keyword">await</span> wav1.arrayBuffer());
-    <span class="hljs-keyword">const</span> buffer2 = <span class="hljs-keyword">await</span> ctx.decodeAudioData(<span class="hljs-keyword">await</span> wav2.arrayBuffer());
+    <span class="hljs-keyword">const</span> src1 = ctx.<span class="hljs-title function_">createBufferSource</span>();
+    src1.<span class="hljs-property">buffer</span> = buffer1;
+    <span class="hljs-keyword">const</span> src2 = ctx.<span class="hljs-title function_">createBufferSource</span>();
+    src2.<span class="hljs-property">buffer</span> = buffer2;
 
-    <span class="hljs-keyword">const</span> src1 = ctx.createBufferSource();
-    src1.buffer = buffer1;
-    <span class="hljs-keyword">const</span> src2 = ctx.createBufferSource();
-    src2.buffer = buffer2;
+    src1.<span class="hljs-title function_">connect</span>(ctx.<span class="hljs-property">destination</span>);
+    src2.<span class="hljs-title function_">connect</span>(ctx.<span class="hljs-property">destination</span>);
 
-    src1.connect(ctx.destination);
-    src2.connect(ctx.destination);
-
-    src1.onended = <span class="hljs-function">() =&gt;</span> {
-        src2.start();
+    src1.<span class="hljs-property">onended</span> = <span class="hljs-function">() =&gt;</span> {
+        src2.<span class="hljs-title function_">start</span>();
     };
 
-    src1.start();
+    src1.<span class="hljs-title function_">start</span>();
 }</code></pre><p>実際の<a href="../../blog/resources/samples/16-2.html">サンプル</a>です。</p>
 <h3>結果</h3><p>DOMの処理がないためか、Audioタグを使った場合よりも、どのブラウザでもギャップは少なくなりましたが、それでもちょっとギャップレスとは言いがたいものになっています。</p>
 <h2>WebAudio - Concatenate the buffers</h2><p>WebAudioを使えばバッファの操作ができるようになりますので、再生前にバッファをくっつけてしまうのはどうでしょうか。最終形を確認するためにも、やってみることにしましょう。</p>
-<pre><code><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">start</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">const</span> ctx = <span class="hljs-keyword">new</span> AudioContext();
+<pre><code><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">start</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">const</span> ctx = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AudioContext</span>();
 
-    <span class="hljs-keyword">const</span> wav1 = <span class="hljs-keyword">await</span> fetch(<span class="hljs-string">&quot;./Hana_00.wav&quot;</span>);
-    <span class="hljs-keyword">const</span> wav2 = <span class="hljs-keyword">await</span> fetch(<span class="hljs-string">&quot;./Hana_01.wav&quot;</span>);
+    <span class="hljs-keyword">const</span> wav1 = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&quot;./Hana_00.wav&quot;</span>);
+    <span class="hljs-keyword">const</span> wav2 = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&quot;./Hana_01.wav&quot;</span>);
+    
+    <span class="hljs-keyword">const</span> buffer1 = <span class="hljs-keyword">await</span> ctx.<span class="hljs-title function_">decodeAudioData</span>(<span class="hljs-keyword">await</span> wav1.<span class="hljs-title function_">arrayBuffer</span>());
+    <span class="hljs-keyword">const</span> buffer2 = <span class="hljs-keyword">await</span> ctx.<span class="hljs-title function_">decodeAudioData</span>(<span class="hljs-keyword">await</span> wav2.<span class="hljs-title function_">arrayBuffer</span>());
 
-    <span class="hljs-keyword">const</span> buffer1 = <span class="hljs-keyword">await</span> ctx.decodeAudioData(<span class="hljs-keyword">await</span> wav1.arrayBuffer());
-    <span class="hljs-keyword">const</span> buffer2 = <span class="hljs-keyword">await</span> ctx.decodeAudioData(<span class="hljs-keyword">await</span> wav2.arrayBuffer());
+    <span class="hljs-keyword">const</span> buffer = ctx.<span class="hljs-title function_">createBuffer</span>(buffer1.<span class="hljs-property">numberOfChannels</span>, buffer1.<span class="hljs-property">length</span> + buffer2.<span class="hljs-property">length</span>,
+                                    buffer1.<span class="hljs-property">sampleRate</span>);
 
-    <span class="hljs-keyword">const</span> buffer = ctx.createBuffer(buffer1.numberOfChannels, buffer1.length + buffer2.length,
-                                    buffer1.sampleRate);
-
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> ch = <span class="hljs-number">0</span>; ch &lt; buffer1.numberOfChannels; ch++) {
-        buffer.copyToChannel(buffer1.getChannelData(ch), ch, <span class="hljs-number">0</span>);
-        buffer.copyToChannel(buffer2.getChannelData(ch), ch, buffer1.length);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> ch = <span class="hljs-number">0</span>; ch &lt; buffer1.<span class="hljs-property">numberOfChannels</span>; ch++) {
+        buffer.<span class="hljs-title function_">copyToChannel</span>(buffer1.<span class="hljs-title function_">getChannelData</span>(ch), ch, <span class="hljs-number">0</span>);
+        buffer.<span class="hljs-title function_">copyToChannel</span>(buffer2.<span class="hljs-title function_">getChannelData</span>(ch), ch, buffer1.<span class="hljs-property">length</span>);
     }
 
-    <span class="hljs-keyword">const</span> src = ctx.createBufferSource();
-    src.buffer = buffer;
-    src.connect(ctx.destination);
-    src.start();
+    <span class="hljs-keyword">const</span> src = ctx.<span class="hljs-title function_">createBufferSource</span>();
+    src.<span class="hljs-property">buffer</span> = buffer;
+    src.<span class="hljs-title function_">connect</span>(ctx.<span class="hljs-property">destination</span>);
+    src.<span class="hljs-title function_">start</span>();
 }</code></pre><p>実際の<a href="../../blog/resources/samples/16-3.html">サンプル</a>です。</p>
 <h3>結果</h3><p>かなりよいのですが、予想に反して自分の環境ではどのブラウザでも微小なノイズがあります。というか理論上ギャップがでることはないはずなのですが・・・</p>
 <h2>WebAudio - Tweak the source</h2><p>この2ファイルをローカルのギャップレス再生が可能なプレーヤー(foobar2000とか)につっこんでも特にノイズがないことから、ブラウザの処理に何らかの問題があることがわかります。</p>
@@ -110,8 +110,8 @@
 <p>これを使って、<a href="../../blog/resources/samples/16-4.html">48kHz版サンプル</a>でリトライしてみましょう。</p>
 <h3>結果</h3><p>今度は問題ないようです。二つのファイルの境界部分がサンプリングレート変換の影響でうまく合わなくなっていたのでしょう。</p>
 <h3>別解</h3><p>別解としては、AudioContextを作成する際にサンプリングレートを44100にしてしまうという方法が考えられます。</p>
-<pre><code><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">start</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">const</span> ctx = <span class="hljs-keyword">new</span> AudioContext({
+<pre><code><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">start</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">const</span> ctx = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AudioContext</span>({
         <span class="hljs-attr">sampleRate</span>: <span class="hljs-number">44100</span>
     });
     <span class="hljs-comment">// [snip]</span>
@@ -123,37 +123,37 @@
 <p>一つ考えられるのは、ループを用いて、同じバッファを書き換えていく手法です。ただ再生中のバッファを書き換えることは、まあ、どのブラウザでも確実に動作する方法には思えません。再生中のバッファを書き換えることは推奨されないとどこかのドキュメントで読んだ気がしますが、ちょっと見つけられていません。</p>
 <p>ということで、別の方法を使わなくてはなりません。そこで利用したくなるのが、<a href="https://developer.mozilla.org/en-US/docs/Web/API/AudioScheduledSourceNode/start"><code>AudioScheduledSourceNode.start()</code></a>の引数です。(これは、上の例で使っていた<code>AudioBufferSourceNode</code>も継承しています) これで指定した時刻にバッファを再生することができます。</p>
 <p>すなわち、バッファ1の再生を開始した後、バッファ2をバッファ1が終わる時刻に再生開始するようにしておけば、ギャップレス再生できるはずですが、そううまくいくでしょうか。とりあえず、下記のようなコードで試してみましょう。</p>
-<pre><code><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">start</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">const</span> ctx = <span class="hljs-keyword">new</span> AudioContext();
+<pre><code><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">start</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">const</span> ctx = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AudioContext</span>();
 
-    <span class="hljs-keyword">const</span> wav1 = <span class="hljs-keyword">await</span> fetch(<span class="hljs-string">&quot;./Hana48k_00.wav&quot;</span>);
-    <span class="hljs-keyword">const</span> wav2 = <span class="hljs-keyword">await</span> fetch(<span class="hljs-string">&quot;./Hana48k_01.wav&quot;</span>);
+    <span class="hljs-keyword">const</span> wav1 = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&quot;./Hana48k_00.wav&quot;</span>);
+    <span class="hljs-keyword">const</span> wav2 = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&quot;./Hana48k_01.wav&quot;</span>);
+    
+    <span class="hljs-keyword">const</span> buffer1 = <span class="hljs-keyword">await</span> ctx.<span class="hljs-title function_">decodeAudioData</span>(<span class="hljs-keyword">await</span> wav1.<span class="hljs-title function_">arrayBuffer</span>());
+    <span class="hljs-keyword">const</span> buffer2 = <span class="hljs-keyword">await</span> ctx.<span class="hljs-title function_">decodeAudioData</span>(<span class="hljs-keyword">await</span> wav2.<span class="hljs-title function_">arrayBuffer</span>());
 
-    <span class="hljs-keyword">const</span> buffer1 = <span class="hljs-keyword">await</span> ctx.decodeAudioData(<span class="hljs-keyword">await</span> wav1.arrayBuffer());
-    <span class="hljs-keyword">const</span> buffer2 = <span class="hljs-keyword">await</span> ctx.decodeAudioData(<span class="hljs-keyword">await</span> wav2.arrayBuffer());
+    <span class="hljs-keyword">const</span> src1 = ctx.<span class="hljs-title function_">createBufferSource</span>();
+    src1.<span class="hljs-property">buffer</span> = buffer1;
+    <span class="hljs-keyword">const</span> src2 = ctx.<span class="hljs-title function_">createBufferSource</span>();
+    src2.<span class="hljs-property">buffer</span> = buffer2;
 
-    <span class="hljs-keyword">const</span> src1 = ctx.createBufferSource();
-    src1.buffer = buffer1;
-    <span class="hljs-keyword">const</span> src2 = ctx.createBufferSource();
-    src2.buffer = buffer2;
+    src1.<span class="hljs-title function_">connect</span>(ctx.<span class="hljs-property">destination</span>);
+    src2.<span class="hljs-title function_">connect</span>(ctx.<span class="hljs-property">destination</span>);
 
-    src1.connect(ctx.destination);
-    src2.connect(ctx.destination);
-
-    src1.start();
-    <span class="hljs-keyword">const</span> t = ctx.currentTime;
-    src2.start(t + buffer1.duration);
+    src1.<span class="hljs-title function_">start</span>();
+    <span class="hljs-keyword">const</span> t = ctx.<span class="hljs-property">currentTime</span>;
+    src2.<span class="hljs-title function_">start</span>(t + buffer1.<span class="hljs-property">duration</span>);
 }</code></pre><p><a href="../../blog/resources/samples/16-5.html">サンプル</a>です。</p>
 <h3>結果</h3><p>Edge, ChromeのChrome系ブラウザは、ノイズは聞こえないようです。ですが、Firefoxでは合間にノイズが聞こえてしまいます。</p>
 <p>まあコードから明らかですが、<code>src1.start()</code>と<code>ctx.currentTime</code>を読み取るタイミングが、(ノイズが聞こえないくらい)十分近いとは誰も保障してくれるわけではありません。Chromeはたまたまうまくいっていると見るべきでしょう。</p>
 <h2>WebAudio - start() at a scheduled time (2)</h2><p>ではどうすればいいかというと、そもそもバッファ1の再生時刻も予測可能にしてしまえばよいわけです。</p>
 <p>ということで、下記のようなコードにしてみます。</p>
-<pre><code><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">start</span>(<span class="hljs-params"></span>) </span>{
+<pre><code><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">start</span>(<span class="hljs-params"></span>) {
 <span class="hljs-comment">// [snip]</span>
-    <span class="hljs-keyword">const</span> DELTA = <span class="hljs-number">0.2</span>; <span class="hljs-comment">// 200 ms</span>
-    <span class="hljs-keyword">const</span> t = ctx.currentTime + DELTA;
-    src1.start(t);
-    src2.start(t + buffer1.duration);
+    <span class="hljs-keyword">const</span> <span class="hljs-variable constant_">DELTA</span> = <span class="hljs-number">0.2</span>; <span class="hljs-comment">// 200 ms</span>
+    <span class="hljs-keyword">const</span> t = ctx.<span class="hljs-property">currentTime</span> + <span class="hljs-variable constant_">DELTA</span>;
+    src1.<span class="hljs-title function_">start</span>(t);
+    src2.<span class="hljs-title function_">start</span>(t + buffer1.<span class="hljs-property">duration</span>);
 }</code></pre><p><a href="../../blog/resources/samples/16-6.html">サンプル</a>です。</p>
 <h3>結果</h3><p>これでどのブラウザでもノイズなくギャップレス再生ができるようになります。意外と精度よく時刻指定できるものですね。</p>
 <p>もちろん、200msのウェイトを加えているので、ボタンを押してから微妙に時間差を感じることになりますが、実際も音声データを取ってくる処理とかがはいるので、まあこれは許容できるでしょう。</p>
@@ -249,6 +249,6 @@
 </tr>
 </tbody></table><p>どちらもブレるケースが多くなってきます。OggやOpusだとずれが生じているようです。</p>
 <p>ということで、可逆圧縮であればFLAC、非可逆圧縮であればMP3ということになるようです。・・・でも以前調査したとき、mp3はぶれたことがあったような気がするんですよねえ。直ったのかもしれませんし、今回のデータではたまたま起きなかったのかもしれません。なので、やはり可逆圧縮が正義なのかもしれません。</p>
-</div></p></article></div></div><!----><footer class="uk-margin-auto-top"><p class="uk-text-small uk-text-muted uk-text-center">Copyright © 2018-2020 nikorisoft - Ver.0.3.1-static</p></footer></div></div>
+</div></p></article></div></div><!----><footer class="uk-margin-auto-top"><p class="uk-text-small uk-text-muted uk-text-center">Copyright © 2018-2021 nikorisoft - Ver.0.3.2</p></footer></div></div>
     </body>
 </html>

@@ -6,13 +6,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/ext/uikit/css/uikit.min.css">
         <link rel="stylesheet" href="/nikory/nikory.css">
-        <link rel="stylesheet" href="/nikory/tomorrow.css">
+        <link rel="stylesheet" href="/nikory/a11y-light.css">
         <script src="/ext/uikit/js/uikit.min.js"></script>
         <script src="/ext/uikit/js/uikit-icons.min.js"></script>
         <title>oneworld Explorer Explorer - nikory</title>
     </head>
     <body>
-        <div class="uk-section-small"><div class="uk-container uk-container-large"><nav class="uk-navbar-container uk-margin-bottom"><div class="uk-navbar-left"><a class="uk-navbar-item uk-logo" href="/">nikori.jp</a><ul class="uk-navbar-nav"><li><a href="/nikory/articles/17.html">Latest Article</a></li><li><a href="/nikory/index.html">Article Index</a></li></ul></div></nav><div class="article"><div class="article-body"><ul class="uk-pagination"><li><a href="./16.html"><span uk-pagination-previous></span><span class="uk-margin-small-left">Previous</span></a></li><!----></ul><article class="uk-article" id="article"><h1 class="uk-article-title">oneworld Explorer Explorer</h1><p class="uk-article-meta"><span>Last updated on 12/21/2020, 11:24:42 AM, originally posted on 12/21/2020, 11:04:58 AM</span> by <a href="https://github.com/nikorisoft">nikorisoft</a><div class="contents"><p>このエントリは、<a href="https://adventar.org/calendars/4945">ニューノーマル ぴょこりんクラスタ Advent Calendar 2020</a>のために書かれたものです。</p>
+        <div class="uk-section-small"><div class="uk-container uk-container-large"><nav class="uk-navbar-container uk-margin-bottom"><div class="uk-navbar-left"><a class="uk-navbar-item uk-logo" href="/">nikori.jp</a><ul class="uk-navbar-nav"><li><a href="/nikory/articles/17.html">Latest Article</a></li><li><a href="/nikory/index.html">Article Index</a></li></ul></div></nav><div class="article"><div class="article-body"><ul class="uk-pagination"><li><a href="./16.html"><span uk-pagination-previous></span><span class="uk-margin-small-left">Previous</span></a></li><!----></ul><article class="uk-article" id="article"><h1 class="uk-article-title">oneworld Explorer Explorer</h1><p class="uk-article-meta"><span>Last updated on 12/22/2020, 4:24:42 AM, originally posted on 12/22/2020, 4:04:58 AM</span> by <a href="https://github.com/nikorisoft">nikorisoft</a><div class="contents"><p>このエントリは、<a href="https://adventar.org/calendars/4945">ニューノーマル ぴょこりんクラスタ Advent Calendar 2020</a>のために書かれたものです。</p>
 <p>さて、2020年最後の記事は、やはりoneworld Explorerです。<a href="./13.html">前回</a>は、4大陸で3大陸を上回る効率を実現できることを示しました。旅行はできていませんが発券はできたので、ほぼ確実と言ってもいいでしょう。</p>
 <p>ここまでやって経路をひたすら手で探しているのは、さすがに人間としてどうかと思われる頃合いかと思いますので、たまにはプログラムを書いて探索をしてみることにしました。本来は、最長解を探すのが理想なのですが、いろいろな課題があり、それを解決するには能力も気力も足りないので、ほどほどな結果を出すことを目標としていきましょう。</p>
 <p>今回は、言語の練習としてRustで書いてみました。正しい使い方でないところが随所にあるかと思いますがご容赦くださいまし。</p>
@@ -23,18 +23,18 @@
 <p>・・・どこがフォーマルなんですかね。まあ先に進みましょう。</p>
 <h3>距離関数 d</h3><p>まずは、距離から定義しましょう。もちろん、地球上の物理的な距離がベースではあるのですが、ここで本当にほしいのは二空港間を飛んだ場合に得られるFOPです。従って、ボーナスを考慮しなければなりません。</p>
 <p><a href="https://en.wikipedia.org/wiki/Great-circle_distance">適当な公式</a>でまず大円距離を求めることで、空港の緯度と経度から距離の近似値を求めることができます。今回は、地球の半径として6335.439km(3958.756 mi)を使用しました。具体的には、下記のようなコードです。</p>
-<pre><code>    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">calc_distance</span></span>(from: &amp;City, to: &amp;City) -&gt; <span class="hljs-built_in">f64</span> {
-        <span class="hljs-keyword">let</span> lat1 = from.lat / <span class="hljs-number">180.0</span> * PI;
-        <span class="hljs-keyword">let</span> lat2 = to.lat / <span class="hljs-number">180.0</span> * PI;
-        <span class="hljs-keyword">let</span> lon1 = from.lon / <span class="hljs-number">180.0</span> * PI;
-        <span class="hljs-keyword">let</span> lon2 = to.lon / <span class="hljs-number">180.0</span> * PI;
-
-        <span class="hljs-keyword">let</span> d_lon = (lon1 - lon2).abs();
-
-        <span class="hljs-keyword">let</span> x = lat1.sin() * lat2.sin() + lat1.cos() * lat2.cos() * d_lon.cos();
-        <span class="hljs-keyword">let</span> y = ((lat2.cos() * d_lon.sin()).powi(<span class="hljs-number">2</span>) + (lat1.cos() * lat2.sin() - lat1.sin() * lat2.cos() * d_lon.cos()).powi(<span class="hljs-number">2</span>))
-            .sqrt();
-        <span class="hljs-keyword">let</span> d_sigma = y.atan2(x);
+<pre><code>    <span class="hljs-keyword">fn</span> <span class="hljs-title function_">calc_distance</span>(from: &amp;City, to: &amp;City) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">f64</span> {
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">lat1</span> = from.lat / <span class="hljs-number">180.0</span> * PI;
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">lat2</span> = to.lat / <span class="hljs-number">180.0</span> * PI;
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">lon1</span> = from.lon / <span class="hljs-number">180.0</span> * PI;
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">lon2</span> = to.lon / <span class="hljs-number">180.0</span> * PI;
+    
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">d_lon</span> = (lon1 - lon2).<span class="hljs-title function_ invoke__">abs</span>();
+    
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">x</span> = lat1.<span class="hljs-title function_ invoke__">sin</span>() * lat2.<span class="hljs-title function_ invoke__">sin</span>() + lat1.<span class="hljs-title function_ invoke__">cos</span>() * lat2.<span class="hljs-title function_ invoke__">cos</span>() * d_lon.<span class="hljs-title function_ invoke__">cos</span>();
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">y</span> = ((lat2.<span class="hljs-title function_ invoke__">cos</span>() * d_lon.<span class="hljs-title function_ invoke__">sin</span>()).<span class="hljs-title function_ invoke__">powi</span>(<span class="hljs-number">2</span>) + (lat1.<span class="hljs-title function_ invoke__">cos</span>() * lat2.<span class="hljs-title function_ invoke__">sin</span>() - lat1.<span class="hljs-title function_ invoke__">sin</span>() * lat2.<span class="hljs-title function_ invoke__">cos</span>() * d_lon.<span class="hljs-title function_ invoke__">cos</span>()).<span class="hljs-title function_ invoke__">powi</span>(<span class="hljs-number">2</span>))
+            .<span class="hljs-title function_ invoke__">sqrt</span>();
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">d_sigma</span> = y.<span class="hljs-title function_ invoke__">atan2</span>(x);
 
         d_sigma * RADIUS_MILE
     }</code></pre><p>これによって求まった物理的距離(mi)をdistance(a, b)として、</p>
@@ -60,11 +60,11 @@
 <p>とします。地域の定義は、次に述べますが、ここで表現しようとしているのは、JALの国内線は2倍、アジア・オセアニアは1.5倍というアレです。
 つまり、JAL路線かどうかを、ここでは簡略化して、いずれかの空港が日本であれば、それはJAL路線としています。コードシェアを含めれば、だいたい正しいのですが、残念ながら完全ではありません。でも無視します。</p>
 <p>以上を単純に書き下すと次のようになります。</p>
-<pre><code>    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">calc_point</span></span>(from: &amp;City, to: &amp;City) -&gt; <span class="hljs-built_in">u32</span> {
-        <span class="hljs-keyword">let</span> mul = <span class="hljs-keyword">if</span> from.area == AreaCode::Japan &amp;&amp; from.area == to.area {
+<pre><code>    <span class="hljs-keyword">fn</span> <span class="hljs-title function_">calc_point</span>(from: &amp;City, to: &amp;City) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">u32</span> {
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">mul</span> = <span class="hljs-keyword">if</span> from.area == AreaCode::Japan &amp;&amp; from.area == to.area {
             <span class="hljs-comment">// Japan domestic</span>
             <span class="hljs-number">2.0</span>
-        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (from.area == AreaCode::Japan &amp;&amp; (to.area == AreaCode::Asia || to.area == AreaCode::Oceania)) ||
+        } <span class="hljs-keyword">else</span> <span class="hljs-title function_ invoke__">if</span> (from.area == AreaCode::Japan &amp;&amp; (to.area == AreaCode::Asia || to.area == AreaCode::Oceania)) ||
             (to.area == AreaCode::Japan &amp;&amp; (from.area == AreaCode::Asia || from.area == AreaCode::Oceania)) {
             <span class="hljs-keyword">if</span> from.country == <span class="hljs-string">&quot;RU&quot;</span> || to.country == <span class="hljs-string">&quot;RU&quot;</span> {
                 <span class="hljs-comment">// Russia (East of Ural) is considered to be in Europe</span>
@@ -76,13 +76,13 @@
             <span class="hljs-number">1.0</span>
         };
 
-        <span class="hljs-keyword">let</span> extra = <span class="hljs-keyword">if</span> from.area == AreaCode::Japan || to.area == AreaCode::Japan {
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">extra</span> = <span class="hljs-keyword">if</span> from.area == AreaCode::Japan || to.area == AreaCode::Japan {
             <span class="hljs-number">400.0</span>
         } <span class="hljs-keyword">else</span> {
             <span class="hljs-number">0.0</span>
         };
 
-        (City::calc_distance(from, to) * mul * CLASS_MUL + extra).floor() <span class="hljs-keyword">as</span> <span class="hljs-built_in">u32</span>
+        (City::<span class="hljs-title function_ invoke__">calc_distance</span>(from, to) * mul * CLASS_MUL + extra).<span class="hljs-title function_ invoke__">floor</span>() <span class="hljs-keyword">as</span> <span class="hljs-type">u32</span>
     }</code></pre><h3>地域の定義</h3><p>oneworld Explorerのルールに従い、世界を次の6カ所の地域(oneworld Explorerでは大陸 <em>continent</em> と呼んでいます)にわけます。</p>
 <ul>
 <li>アジア</li>
@@ -110,13 +110,13 @@
 <p>そこで、今回は、<a href="https://rtw.oneworld.com/rtw/">oneworld Explorerの見積もりサイト</a>の地図が使用しているJSONデータを利用することにしました。(POSTで取得しているのでリンクは張れません)</p>
 <p>運航路線のデータもとれれば良かったのですが、その情報はクライアントサイドで処理してないようなので残念です。</p>
 <p>この空港データ（実際は都市データ）ですが、以下のような情報を持っています。</p>
-<pre><code><span class="hljs-keyword">pub</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">JsonCityData</span></span> {
-    <span class="hljs-keyword">pub</span> cityCode: <span class="hljs-built_in">String</span>,
-    <span class="hljs-keyword">pub</span> countryCode: <span class="hljs-built_in">String</span>,
-    <span class="hljs-keyword">pub</span> lat: <span class="hljs-built_in">String</span>,
-    <span class="hljs-keyword">pub</span> lon: <span class="hljs-built_in">String</span>,
-    <span class="hljs-keyword">pub</span> timeZone: <span class="hljs-built_in">String</span>,
-    <span class="hljs-keyword">pub</span> name: <span class="hljs-built_in">String</span>
+<pre><code><span class="hljs-keyword">pub</span> <span class="hljs-keyword">struct</span> <span class="hljs-title class_">JsonCityData</span> {
+    <span class="hljs-keyword">pub</span> cityCode: <span class="hljs-type">String</span>,
+    <span class="hljs-keyword">pub</span> countryCode: <span class="hljs-type">String</span>,
+    <span class="hljs-keyword">pub</span> lat: <span class="hljs-type">String</span>,
+    <span class="hljs-keyword">pub</span> lon: <span class="hljs-type">String</span>,
+    <span class="hljs-keyword">pub</span> timeZone: <span class="hljs-type">String</span>,
+    <span class="hljs-keyword">pub</span> name: <span class="hljs-type">String</span>
 }</code></pre><p>必要な緯度と経度、国情報、意外と便利なタイムゾーン情報が入っています。</p>
 <h3>国と地域の対応付け</h3><p>さて、次に各空港と地域の対応付けが必要です。上で書いたように、国コードが入っていますので、国から地域へマップできれば良いことになります。
 このデータは、<a href="https://github.com/lukes/ISO-3166-Countries-with-Regional-Codes">このrepositoryのデータ</a>を利用しました。</p>
@@ -143,8 +143,8 @@
 </li>
 </ul>
 <p>としました。コードは、これをそのまま書いたもので、次のようなものです。</p>
-<pre><code>    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">find_area</span></span>(country_code: &amp;<span class="hljs-built_in">str</span>, time_zone: &amp;<span class="hljs-built_in">str</span>, map: &amp;HashMap&lt;<span class="hljs-built_in">String</span>, &amp;json::JsonCountryCode&gt;) -&gt; AreaCode {
-        <span class="hljs-keyword">let</span> country = map[country_code];
+<pre><code>    <span class="hljs-keyword">fn</span> <span class="hljs-title function_">find_area</span>(country_code: &amp;<span class="hljs-type">str</span>, time_zone: &amp;<span class="hljs-type">str</span>, map: &amp;HashMap&lt;<span class="hljs-type">String</span>, &amp;json::JsonCountryCode&gt;) <span class="hljs-punctuation">-&gt;</span> AreaCode {
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">country</span> = map[country_code];
 
         <span class="hljs-keyword">if</span> country.code == <span class="hljs-string">&quot;JP&quot;</span> {
             AreaCode::Japan
@@ -348,7 +348,7 @@
 </tr>
 </tbody></table><p>誤差 0.3% なので、まあいいんじゃないでしょうか。はい。</p>
 <h2>計算</h2><p>さて、まずは何も考えずに計算してみましょう。まずは、地域内で最長のルートを探してみましょう。アジアを例にとってみると、</p>
-<pre><code><span class="hljs-attribute">Result</span> = <span class="hljs-number">41500</span>
+<pre><code><span class="hljs-attribute">Result</span> <span class="hljs-operator">=</span> <span class="hljs-number">41500</span>
 MMB - GAN - MMB - GAN - MMB</code></pre><p>となります。女満別空港(MMB)とモルディブのガン島のガン国際空港(GAN)を往復するというルートになります。当たり前なんですが、何の制約もつけなかったので、地域内の最長距離の2空港をひたすら往復するという答えがでます。</p>
 <p>これは、2つの点で現実的ではありません。一つは、同じ方向のルートを2回以上使うことはできないというoneworld Explorerのルールに反しています。そして、もう一つは、こんなルートは実際には飛んでいません。</p>
 <p>ということで、これをそのまま進めてもいいことはなさそうです。2回使えないルールを課しても、一番長いルートを往復したのち二番目のものを往復みたいなルートになるだけですね。</p>
@@ -631,6 +631,6 @@ oneworld Explorerのルール違反はありません。ですが、半数の路
 <p>他方、アジア～ヨーロッパ間で、SIN-LHR路線をつかうという発想がなかったため(考えれば当たり前なのですが)、今後のルート作成に参考にしたいと思います。こういった一つのルートを対象にすれば、路線が実在するかどうかを確かめることができるので、実用性があるかもしれませんね。</p>
 <p>いずれにしても、現在の世界情勢においてはこういったチケットを使うことはほぼ不可能ですし、さらに航空会社の財政状態が悪化したあと、このようなチケットが残っているかどうかも不透明です。これが未来に生かされるのか、ただの鎮魂歌になってしまうのか、前者であることを祈らざるを得ません。</p>
 <h3>ソース</h3><p>READMEも何もなくて微妙ですが、いちおう<a href="https://github.com/nikorisoft/owe-explorer">ソース</a>を公開しておきます。</p>
-</div></p></article></div></div><!----><footer class="uk-margin-auto-top"><p class="uk-text-small uk-text-muted uk-text-center">Copyright © 2018-2020 nikorisoft - Ver.0.3.1-static</p></footer></div></div>
+</div></p></article></div></div><!----><footer class="uk-margin-auto-top"><p class="uk-text-small uk-text-muted uk-text-center">Copyright © 2018-2021 nikorisoft - Ver.0.3.2</p></footer></div></div>
     </body>
 </html>
