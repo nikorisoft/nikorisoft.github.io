@@ -35,6 +35,8 @@ section.bg {
 
 h1 {
     margin-top: 10%;
+    padding: 1em 2em;
+    background-color: rgba(0, 0, 0, 0.7);
     text-align: center;
     color: white;
 }
@@ -46,6 +48,8 @@ h1 {
     border-radius: 0.5em;
     margin-left: 3em;
     margin-bottom: 3em;
+    max-height: 70vh;
+    overflow-y: auto;
 }
 
 .description footer {

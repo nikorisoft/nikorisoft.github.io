@@ -25,6 +25,8 @@ function findNearestPoint(route, time) {
     return points[points.length - 1];
 }
 
+const pointObjects = {};
+
 window.addEventListener("DOMContentLoaded", async (event) => {
     console.debug("DOM ready. Start initializing...");
 
@@ -102,7 +104,6 @@ window.addEventListener("DOMContentLoaded", async (event) => {
 
     const points = route.map((wp) => [wp.lat, wp.lon]);
     const polyline = L.polyline(points, { color: "red" }).addTo(map);
-    const markers = {};
 
     map.fitBounds(polyline.getBounds());
 
@@ -126,24 +127,29 @@ window.addEventListener("DOMContentLoaded", async (event) => {
                 section.scrollIntoView({ behavior: "smooth" });
             });
 
-            markers[id] = marker;
+            pointObjects[id] = {
+                marker,
+                point: p
+            };
         }
     }
-
 
     // Setup observer
     const observer = new IntersectionObserver((entries) => {
         for (const entry of entries) {
             const id = entry.target.id;
-            if (markers[id] != null) {
-                const marker = markers[id];
+            if (pointObjects[id] != null) {
+                const p = pointObjects[id];
+                const marker = p.marker;
 
                 if (entry.isIntersecting) {
                     marker.setOpacity(1.0);
                     marker.setIcon(iconActive);
+                    marker.setZIndexOffset(1000);
                 } else {
                     marker.setOpacity(0.8);
                     marker.setIcon(icon);
+                    marker.setZIndexOffset(p.point.lat);
                 }
             }
         }
