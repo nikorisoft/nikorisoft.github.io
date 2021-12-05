@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" prefix="og: https://ogp.me/ns#">
     <head>
         <meta charset="utf-8">
         <meta name="google-site-verification" content="WspgQxVxWdcH8Uv1Dz0IwtlYh30gYBsa3zHrGgxB6zE">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:title" contents="oneworld Explorer Explorer">
+        <meta property="og:type" contents="article">
+        <meta property="og:url" contents="https://nikori.jp/nikory/articles/17.html">
+
         <link rel="stylesheet" href="/ext/uikit/css/uikit.min.css">
         <link rel="stylesheet" href="/nikory/nikory.css">
         <link rel="stylesheet" href="/nikory/a11y-light.css">
@@ -12,16 +16,16 @@
         <title>oneworld Explorer Explorer - nikory</title>
     </head>
     <body>
-        <div class="uk-section-small"><div class="uk-container uk-container-large"><nav class="uk-navbar-container uk-margin-bottom"><div class="uk-navbar-left"><a class="uk-navbar-item uk-logo" href="/">nikori.jp</a><ul class="uk-navbar-nav"><li><a href="/nikory/articles/17.html">Latest Article</a></li><li><a href="/nikory/index.html">Article Index</a></li></ul></div></nav><div class="article"><div class="article-body"><ul class="uk-pagination"><li><a href="./16.html"><span uk-pagination-previous></span><span class="uk-margin-small-left">Previous</span></a></li><!----></ul><article class="uk-article" id="article"><h1 class="uk-article-title">oneworld Explorer Explorer</h1><p class="uk-article-meta"><span>Last updated on 12/22/2020, 4:24:42 AM, originally posted on 12/22/2020, 4:04:58 AM</span> by <a href="https://github.com/nikorisoft">nikorisoft</a><div class="contents"><p>このエントリは、<a href="https://adventar.org/calendars/4945">ニューノーマル ぴょこりんクラスタ Advent Calendar 2020</a>のために書かれたものです。</p>
+        <div class="uk-section-small"><div class="uk-container uk-container-large"><nav class="uk-navbar-container uk-margin-bottom"><div class="uk-navbar-left"><a class="uk-navbar-item uk-logo" href="/">nikori.jp</a><ul class="uk-navbar-nav"><li><a href="/nikory/articles/18.html">Latest Article</a></li><li><a href="/nikory/index.html">Article Index</a></li></ul></div></nav><div class="article"><div class="article-body"><ul class="uk-pagination"><li><a href="./16.html"><span uk-pagination-previous></span><span class="uk-margin-small-left">Previous</span></a></li><li class="uk-margin-auto-left"><a href="./18.html"><span>Next</span><span class="uk-margin-small-left" uk-pagination-next></span></a></li></ul><article class="uk-article" id="article"><h1 class="uk-article-title">oneworld Explorer Explorer</h1><p class="uk-article-meta"><span>Last updated on 12/22/2020, 4:24:42 AM, originally posted on 12/22/2020, 4:04:58 AM</span> by <a href="https://github.com/nikorisoft">nikorisoft</a><div class="contents"><p>このエントリは、<a href="https://adventar.org/calendars/4945">ニューノーマル ぴょこりんクラスタ Advent Calendar 2020</a>のために書かれたものです。</p>
 <p>さて、2020年最後の記事は、やはりoneworld Explorerです。<a href="./13.html">前回</a>は、4大陸で3大陸を上回る効率を実現できることを示しました。旅行はできていませんが発券はできたので、ほぼ確実と言ってもいいでしょう。</p>
 <p>ここまでやって経路をひたすら手で探しているのは、さすがに人間としてどうかと思われる頃合いかと思いますので、たまにはプログラムを書いて探索をしてみることにしました。本来は、最長解を探すのが理想なのですが、いろいろな課題があり、それを解決するには能力も気力も足りないので、ほどほどな結果を出すことを目標としていきましょう。</p>
 <p>今回は、言語の練習としてRustで書いてみました。正しい使い方でないところが随所にあるかと思いますがご容赦くださいまし。</p>
-<h2>問題と定義</h2><p>いちおう、少しフォーマルに問題を定義しましょう。</p>
+<h2 class="">問題と定義</h2><p>いちおう、少しフォーマルに問題を定義しましょう。</p>
 <p><em>A</em>を空港の集合とします。次に定義する距離合計値 <em>D(<em>a0</em>, <em>a1</em>, ... <em>a15</em>)</em> が最大となる<em>a0</em>, <em>a1</em>, ..., <em>a15</em> (∈<em>A</em>) を見つけるというものです。</p>
 <p><em>D(<em>a0</em>, ..., <em>a15</em>)</em> = d(<em>a0</em>, <em>a1</em>) + d(<em>a1</em>, <em>a2</em>) + ... + d(<em>a15</em>, <em>a0</em>)</p>
 <p>ただし、d(a, b)は、2空港aとbの間の距離を返す関数、<em>a0</em>, <em>a1</em>, ..., <em>a15</em> は、oneworld Explorerの規則を満たすものとします。</p>
 <p>・・・どこがフォーマルなんですかね。まあ先に進みましょう。</p>
-<h3>距離関数 d</h3><p>まずは、距離から定義しましょう。もちろん、地球上の物理的な距離がベースではあるのですが、ここで本当にほしいのは二空港間を飛んだ場合に得られるFOPです。従って、ボーナスを考慮しなければなりません。</p>
+<h3 class="uk-heading-bullet">距離関数 d</h3><p>まずは、距離から定義しましょう。もちろん、地球上の物理的な距離がベースではあるのですが、ここで本当にほしいのは二空港間を飛んだ場合に得られるFOPです。従って、ボーナスを考慮しなければなりません。</p>
 <p><a href="https://en.wikipedia.org/wiki/Great-circle_distance">適当な公式</a>でまず大円距離を求めることで、空港の緯度と経度から距離の近似値を求めることができます。今回は、地球の半径として6335.439km(3958.756 mi)を使用しました。具体的には、下記のようなコードです。</p>
 <pre><code>    <span class="hljs-keyword">fn</span> <span class="hljs-title function_">calc_distance</span>(from: &amp;City, to: &amp;City) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">f64</span> {
         <span class="hljs-keyword">let</span> <span class="hljs-variable">lat1</span> = from.lat / <span class="hljs-number">180.0</span> * PI;
@@ -83,7 +87,7 @@
         };
 
         (City::<span class="hljs-title function_ invoke__">calc_distance</span>(from, to) * mul * CLASS_MUL + extra).<span class="hljs-title function_ invoke__">floor</span>() <span class="hljs-keyword">as</span> <span class="hljs-type">u32</span>
-    }</code></pre><h3>地域の定義</h3><p>oneworld Explorerのルールに従い、世界を次の6カ所の地域(oneworld Explorerでは大陸 <em>continent</em> と呼んでいます)にわけます。</p>
+    }</code></pre><h3 class="uk-heading-bullet">地域の定義</h3><p>oneworld Explorerのルールに従い、世界を次の6カ所の地域(oneworld Explorerでは大陸 <em>continent</em> と呼んでいます)にわけます。</p>
 <ul>
 <li>アジア</li>
 <li>ヨーロッパ・中東</li>
@@ -105,8 +109,8 @@
 <p>最初は、FOP計算で、日本だけ2倍とするための扱いなので、自明でしょう。</p>
 <p>2番目は、oneworld Explorer的には、ロシアは東西に長すぎるため、東西に分割して、シベリアなどの東部分はアジア扱いとして、西部分はヨーロッパとしています。これによって、例えばS7航空で、ウラジオストクとモスクワを反復横跳びすることで(本当にそんな路線があるかは確かめていません)、ヨーロッパでの距離を稼ぐことを防止しているのでしょう。
 他方、JALのFOP計算においては、ロシアはあくまでヨーロッパ扱いなので、最近開設された成田-ウラジオストク便は、ただでさえ距離が短いのに、非常に残念なことに1倍となります。</p>
-<h2>データ</h2><p>さて、では、次に計算に必要なデータを収集しましょう。ここがある意味、今回の肝かもしれません。</p>
-<h3>空港</h3><p>まずは空港のデータが必要となります。すべての世界中の空港のデータ(があるとして)を使うのが一つの方法ですが、oneworldの航空会社が就航している空港でないと意味がありませんし、膨大な量になるのでもう少し絞られたデータがほしくなります。</p>
+<h2 class="">データ</h2><p>さて、では、次に計算に必要なデータを収集しましょう。ここがある意味、今回の肝かもしれません。</p>
+<h3 class="uk-heading-bullet">空港</h3><p>まずは空港のデータが必要となります。すべての世界中の空港のデータ(があるとして)を使うのが一つの方法ですが、oneworldの航空会社が就航している空港でないと意味がありませんし、膨大な量になるのでもう少し絞られたデータがほしくなります。</p>
 <p>そこで、今回は、<a href="https://rtw.oneworld.com/rtw/">oneworld Explorerの見積もりサイト</a>の地図が使用しているJSONデータを利用することにしました。(POSTで取得しているのでリンクは張れません)</p>
 <p>運航路線のデータもとれれば良かったのですが、その情報はクライアントサイドで処理してないようなので残念です。</p>
 <p>この空港データ（実際は都市データ）ですが、以下のような情報を持っています。</p>
@@ -118,7 +122,7 @@
     <span class="hljs-keyword">pub</span> timeZone: <span class="hljs-type">String</span>,
     <span class="hljs-keyword">pub</span> name: <span class="hljs-type">String</span>
 }</code></pre><p>必要な緯度と経度、国情報、意外と便利なタイムゾーン情報が入っています。</p>
-<h3>国と地域の対応付け</h3><p>さて、次に各空港と地域の対応付けが必要です。上で書いたように、国コードが入っていますので、国から地域へマップできれば良いことになります。
+<h3 class="uk-heading-bullet">国と地域の対応付け</h3><p>さて、次に各空港と地域の対応付けが必要です。上で書いたように、国コードが入っていますので、国から地域へマップできれば良いことになります。
 このデータは、<a href="https://github.com/lukes/ISO-3166-Countries-with-Regional-Codes">このrepositoryのデータ</a>を利用しました。</p>
 <p><code>JP</code>なら日本、地域が<code>Oceania</code>ならオセアニア、という形でマップしていくので楽ですね！</p>
 <p>・・・というはずなのですが、いろいろ細かい問題があり、下記のようなアドホックな調整を必要としました。</p>
@@ -188,7 +192,7 @@
         } <span class="hljs-keyword">else</span> {
             <span class="hljs-built_in">panic!</span>(<span class="hljs-string">&quot;Cannot determine region for {}&quot;</span>, country.code);
         }
-    }</code></pre><h3>空港の数</h3><p>では、地域ごとの空港の数をカウントしてみます。</p>
+    }</code></pre><h3 class="uk-heading-bullet">空港の数</h3><p>では、地域ごとの空港の数をカウントしてみます。</p>
 <table class="uk-table uk-table-divider uk-table-small"><thead><tr>
 <th>地域</th>
 <th align="right">データ中の空港数</th>
@@ -218,7 +222,7 @@
 <td align="right">17</td>
 </tr>
 </tbody></table><p>南アメリカが少ないですね。まあ、LATAM航空が抜けたのでしょうがないですね。</p>
-<h3>dの実装の妥当性</h3><p>さて、とりあえずこのように作った<em>d</em> (プログラム上では、<code>City::calc_point</code>)がどれだけ妥当かどうかを確かめてみましょう。</p>
+<h3 class="uk-heading-bullet">dの実装の妥当性</h3><p>さて、とりあえずこのように作った<em>d</em> (プログラム上では、<code>City::calc_point</code>)がどれだけ妥当かどうかを確かめてみましょう。</p>
 <p>まともな検証とは言いがたいですが、とりあえず、例として、<a href="./3.html">前回のoneworld Explorerの旅程</a>に対して計算をしてみて、比較してみましょう。</p>
 <table class="uk-table uk-table-divider uk-table-small"><thead><tr>
 <th>From</th>
@@ -347,13 +351,13 @@
 <td align="right">65809</td>
 </tr>
 </tbody></table><p>誤差 0.3% なので、まあいいんじゃないでしょうか。はい。</p>
-<h2>計算</h2><p>さて、まずは何も考えずに計算してみましょう。まずは、地域内で最長のルートを探してみましょう。アジアを例にとってみると、</p>
+<h2 class="">計算</h2><p>さて、まずは何も考えずに計算してみましょう。まずは、地域内で最長のルートを探してみましょう。アジアを例にとってみると、</p>
 <pre><code><span class="hljs-attribute">Result</span> <span class="hljs-operator">=</span> <span class="hljs-number">41500</span>
 MMB - GAN - MMB - GAN - MMB</code></pre><p>となります。女満別空港(MMB)とモルディブのガン島のガン国際空港(GAN)を往復するというルートになります。当たり前なんですが、何の制約もつけなかったので、地域内の最長距離の2空港をひたすら往復するという答えがでます。</p>
 <p>これは、2つの点で現実的ではありません。一つは、同じ方向のルートを2回以上使うことはできないというoneworld Explorerのルールに反しています。そして、もう一つは、こんなルートは実際には飛んでいません。</p>
 <p>ということで、これをそのまま進めてもいいことはなさそうです。2回使えないルールを課しても、一番長いルートを往復したのち二番目のものを往復みたいなルートになるだけですね。</p>
-<h2>ヒューリスティクス</h2><p>ほかの地域もこれで進めても意味がないので、ドメイン知識(?)を応用して、もうちょっと現実的なルートを出してみましょう。</p>
-<h3>ハブ・アンド・スポーク</h3><p>まずは、現在、ほとんどの航空会社がハブ・アンド・スポーク戦略を採用しているため、現実的な航空路線は、航路の少なくとも片方がいずれかの航空会社のハブ空港になるということを利用します。</p>
+<h2 class="">ヒューリスティクス</h2><p>ほかの地域もこれで進めても意味がないので、ドメイン知識(?)を応用して、もうちょっと現実的なルートを出してみましょう。</p>
+<h3 class="uk-heading-bullet">ハブ・アンド・スポーク</h3><p>まずは、現在、ほとんどの航空会社がハブ・アンド・スポーク戦略を採用しているため、現実的な航空路線は、航路の少なくとも片方がいずれかの航空会社のハブ空港になるということを利用します。</p>
 <p>実際、上でも参照した過去のoneworld Explorerのルートで見てみると、</p>
 <ul>
 <li><strong>NRT</strong> - <strong>KUL</strong> - <strong>HKG</strong> - <strong>MAD</strong> - <strong>HEL</strong> - LIS - <strong>LHR</strong> - <strong>DOH</strong> - <strong>LAX</strong> - ANC - <strong>DFW</strong> - YVR - <strong>JFK</strong> - <strong>MIA</strong> - BOS - <strong>HKG</strong> - <strong>NRT</strong> (一回目のルート)</li>
@@ -375,7 +379,7 @@ MMB - GAN - MMB - GAN - MMB</code></pre><p>となります。女満別空港(MMB
 <li>MAD(マドリード) (イベリア航空)</li>
 </ul>
 <p>今見返してみると、ロイヤル・エア・モロッコとS7航空が入っていませんね。まあ、たぶん大勢に影響なさそうなので、よしとしましょう。</p>
-<h3>実際に運航している路線</h3><p>次に、実際に運航している路線にしぼりたいところです。しかしそういう都合のいいデータベースは簡単には見つからなかったため、<a href="https://www.flightradar24.com/data/airports/hnd/routes">Flightradar24の空港ページのRoutesタブ (リンクは羽田空港の例)</a>のデータを使うことにしました。</p>
+<h3 class="uk-heading-bullet">実際に運航している路線</h3><p>次に、実際に運航している路線にしぼりたいところです。しかしそういう都合のいいデータベースは簡単には見つからなかったため、<a href="https://www.flightradar24.com/data/airports/hnd/routes">Flightradar24の空港ページのRoutesタブ (リンクは羽田空港の例)</a>のデータを使うことにしました。</p>
 <p>これだと空港ごとにデータを取得しないといけないため、単純にやってしまうとデータをそろえるのが大変ですが、上記のようにハブ空港を選んだので、ハブ空港から飛んでいるルートのみを取得することとしました。</p>
 <p>ただし、このリストは、実際に直近で飛んだ飛行機が存在する空港のリストで、貨物便も含んでいること、アライアンス外の航空会社によるものも含んでいることには要注意です。また、取得した日時で内容は変化するはずです。</p>
 <p>これを踏まえて、ハブから接続されていない空港は、そもそも空港リストから除外することとしました。この結果、空港の数は、</p>
@@ -408,20 +412,20 @@ MMB - GAN - MMB - GAN - MMB</code></pre><p>となります。女満別空港(MMB
 <td align="right">12</td>
 </tr>
 </tbody></table><p>となりました。</p>
-<h3>地域間移動と地域間移動</h3><p>これでもまだ全探索するには数が多いので、探索を次のように分けることにしました。</p>
+<h3 class="uk-heading-bullet">地域間移動と地域間移動</h3><p>これでもまだ全探索するには数が多いので、探索を次のように分けることにしました。</p>
 <ul>
 <li>地域間経路の探索</li>
 <li>地域内経路の探索 (地域に入る空港と地域から出る空港と空港数を固定)</li>
 </ul>
 <p>地域間経路を最長とするような経路は、必ずしも全体としては最長にはなるとは限りませんが、ここまでいろいろ近似を繰り返してきたので今更気にしなくてもいいでしょう（台無し）。</p>
-<h3>oneworld Explorerルール</h3><p>あとは、探索の途中でルールに適合しないルートは削ることにしましょう。といっても、ここまで地域の定義などで、少なからず使っているので、今回の探索で追加で必要になったのは次のルールくらいです。</p>
+<h3 class="uk-heading-bullet">oneworld Explorerルール</h3><p>あとは、探索の途中でルールに適合しないルートは削ることにしましょう。といっても、ここまで地域の定義などで、少なからず使っているので、今回の探索で追加で必要になったのは次のルールくらいです。</p>
 <ul>
 <li>同じ経路の同じルートは2回以上使えない (<a href="./3.html">前の記事の(R5)参照</a>)</li>
 <li>北米において、本土とハワイを往復することはできない (<a href="./3.html">前の記事の(NA14)参照</a>)</li>
 </ul>
-<h2>3大陸版</h2><p>では、3大陸を使った場合の最長路線を探索してみることにしましょう。対称なので、アジア→ヨーロッパ→北米→アジアという経路で考えます。</p>
+<h2 class="">3大陸版</h2><p>では、3大陸を使った場合の最長路線を探索してみることにしましょう。対称なので、アジア→ヨーロッパ→北米→アジアという経路で考えます。</p>
 <p>まずは、地域間の移動経路です。</p>
-<h3>アジア～ヨーロッパ・中東</h3><p>最長のものから順に5つを書いていきましょう。</p>
+<h3 class="uk-heading-bullet">アジア～ヨーロッパ・中東</h3><p>最長のものから順に5つを書いていきましょう。</p>
 <table class="uk-table uk-table-divider uk-table-small"><thead><tr>
 <th>経路</th>
 <th>距離</th>
@@ -448,7 +452,7 @@ MMB - GAN - MMB - GAN - MMB</code></pre><p>となります。女満別空港(MMB
 </tr>
 </tbody></table><p>上記で述べたように、この路線は、貨物便やoneworld以外の便も含んでいるため、現実的にあるかどうかとは別問題です。</p>
 <p>幸いなことに、最長であるSIN-LON(LHR)は、BAが運航しているようですので、ここは、最初の<strong>SIN-LON</strong>を採用します。</p>
-<h3>ヨーロッパ・中東～北アメリカ</h3><table class="uk-table uk-table-divider uk-table-small"><thead><tr>
+<h3 class="uk-heading-bullet">ヨーロッパ・中東～北アメリカ</h3><table class="uk-table uk-table-divider uk-table-small"><thead><tr>
 <th>経路</th>
 <th>距離</th>
 </tr>
@@ -473,7 +477,7 @@ MMB - GAN - MMB - GAN - MMB</code></pre><p>となります。女満別空港(MMB
 <td>9432</td>
 </tr>
 </tbody></table><p>DXB-LAXは、エミレーツ航空が運航していますが、残念ながらoneworldではありません。結局、ここはいままでも使っていた<strong>DOH-LAX</strong>ということになります。</p>
-<h3>北アメリカ～アジア</h3><table class="uk-table uk-table-divider uk-table-small"><thead><tr>
+<h3 class="uk-heading-bullet">北アメリカ～アジア</h3><table class="uk-table uk-table-divider uk-table-small"><thead><tr>
 <th>経路</th>
 <th>距離</th>
 </tr>
@@ -499,7 +503,7 @@ MMB - GAN - MMB - GAN - MMB</code></pre><p>となります。女満別空港(MMB
 </tr>
 </tbody></table><p>さて、意外とメキシコがでてきますね。残念ながら、香港からメキシコ直行便は(少なくとも現在は)ないようです。LAX-SINは、シンガポール航空が運航していますが、これもoneworldではありません。NYC(JFK)-MNLもフィリピン航空が運航していますが、これもoneworldではありません。</p>
 <p>ということで、結局のところ、 <strong>NYC(JFK)-HKG</strong> ということになります。</p>
-<h3>地域内</h3><p>これで16区間のうち3区間が確定しますので、あとは、その間を埋める最長経路を探索すれば、今回の答えとなります。なお、配分方法は、4-4-5、4-3-6、3-4-6の3つ(アジア-ヨーロッパ-北アメリカの順)がありますので、3パターンを調べてその最長のものを選択すればよいでしょう。</p>
+<h3 class="uk-heading-bullet">地域内</h3><p>これで16区間のうち3区間が確定しますので、あとは、その間を埋める最長経路を探索すれば、今回の答えとなります。なお、配分方法は、4-4-5、4-3-6、3-4-6の3つ(アジア-ヨーロッパ-北アメリカの順)がありますので、3パターンを調べてその最長のものを選択すればよいでしょう。</p>
 <p>詳細は省略しますが、これによって得られる最長経路は4-3-6の場合で、以下のようになります。なお、oneworld Explorerは日本出発にすると安いのですが、アジア区間は、1.5倍のおかげでたいてい日本がどこかに絡んでくるため、そこを起点とすればこれを満たせることがわかります。なので、3番目が実際には最初の区間ということになります。(下記の表では、第1列はそのように書いています)</p>
 <table class="uk-table uk-table-divider uk-table-small"><thead><tr>
 <th align="center">#</th>
@@ -626,11 +630,11 @@ oneworld Explorerのルール違反はありません。ですが、半数の路
 <p>中でも北米内が極めてダメです。アンカレッジと東海岸を結ぶ路線は残念ながらありません。そんなのがあるならば、大陸横断路線禁止項目(<a href="./3.html">前の記事の(NA13)</a>)に入っているはずです。また、LAX-PTY, PTY-NYC路線は実在しているようですが、これもoneworldではないようです。残念ですね。</p>
 <p>また、LHR-MCT路線も存在していますが、オマーン航空によるもので、これもoneworldではありません。</p>
 <p>さらにいえば、*をつけたTYO-CMB路線も、スリランカ航空によるものなので、FOPは1.5倍ではなく1倍の計算となるはずです。いちおうJALとのコードシェアではあるので、JAL便名で予約することができれば、この通りなので完全な間違いというわけではないのですが・・・</p>
-<h2>まとめ</h2><p>ということで、非現実的であれ、oneworld explorer(3大陸)でほぼ上限と思われる効率・FOPを算出することができました。どんなに頑張っても100,000 FOPを達成することは無理そうですね。</p>
+<h2 class="">まとめ</h2><p>ということで、非現実的であれ、oneworld explorer(3大陸)でほぼ上限と思われる効率・FOPを算出することができました。どんなに頑張っても100,000 FOPを達成することは無理そうですね。</p>
 <p>この探索の精度をより高めるには、存在しない路線をどうにかして削っていくロジックを加えていくしかないでしょう。しかし、若干、モグラたたき感というかシステマチックにできそうな良いアイディアがありませんので、今回はここまでとしたいと思います。特に、北アメリカは空港数が大量であり、かなりがんばらないと現実解を求めることは難しそうです。本当は4大陸とかもやりたかったのですけどね。</p>
 <p>他方、アジア～ヨーロッパ間で、SIN-LHR路線をつかうという発想がなかったため(考えれば当たり前なのですが)、今後のルート作成に参考にしたいと思います。こういった一つのルートを対象にすれば、路線が実在するかどうかを確かめることができるので、実用性があるかもしれませんね。</p>
 <p>いずれにしても、現在の世界情勢においてはこういったチケットを使うことはほぼ不可能ですし、さらに航空会社の財政状態が悪化したあと、このようなチケットが残っているかどうかも不透明です。これが未来に生かされるのか、ただの鎮魂歌になってしまうのか、前者であることを祈らざるを得ません。</p>
-<h3>ソース</h3><p>READMEも何もなくて微妙ですが、いちおう<a href="https://github.com/nikorisoft/owe-explorer">ソース</a>を公開しておきます。</p>
-</div></p></article></div></div><!----><footer class="uk-margin-auto-top"><p class="uk-text-small uk-text-muted uk-text-center">Copyright © 2018-2021 nikorisoft - Ver.0.3.2</p></footer></div></div>
+<h3 class="uk-heading-bullet">ソース</h3><p>READMEも何もなくて微妙ですが、いちおう<a href="https://github.com/nikorisoft/owe-explorer">ソース</a>を公開しておきます。</p>
+</div></p></article></div></div><!----><footer class="uk-margin-auto-top"><p class="uk-text-small uk-text-muted uk-text-center">Copyright © 2018-2021 nikorisoft - Ver.0.3.4</p></footer></div></div>
     </body>
 </html>
