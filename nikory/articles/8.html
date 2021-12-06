@@ -22,12 +22,12 @@
 Windowsマシンからどうやって使っているかについて、まとめて書いてみようと思いますので、何かの参考になれば幸いです。</p>
 <p>なお、筆者は、セキュリティの専門家ではないので、下記の使い方や用語法などが正しくないおそれがあります。
 あくまで参考程度にとらえ、ご自分で利用される場合には十分ご注意ください。</p>
-<h2 class="">どんなものか</h2><p>そもそもどんなものかといいますと、いろんなプロトコルをサポートしたセキュリティキーです。
+<h2 class="uk-heading-line"><span>どんなものか</span></h2><p>そもそもどんなものかといいますと、いろんなプロトコルをサポートしたセキュリティキーです。
 詳しくは、<a href="https://support.yubico.com/support/solutions/articles/15000014219-yubikey-5-series-technical-manual">YubiKey 5 Series Technical Manual</a>を参照いただきますとわかるかと思いますが、あまりにもプロトコルが多いので何が何だかからなくなるほどです(筆者個人の感想です)。</p>
 <p>典型的には、FIDO U2Fの使い方が想像されますが、ほかのプロトコルについても簡単に紹介していきます。
 なお、筆者は、同じものを2つ購入して、片方をバックアップとしています。これは、紛失というよりかは故障に備えるためです。</p>
 <p>なので、それぞれのケースで、どのように複数キーを設定したかについても書いていきます。一応、紛失等した場合にRevokeするにはどうするかも簡単に付記しています。</p>
-<h3 class="uk-heading-bullet">ユースケース</h3><p>筆者は、下記の用途で利用しています。</p>
+<h3 class="uk-heading-bullet"><span>ユースケース</span></h3><p>筆者は、下記の用途で利用しています。</p>
 <ul>
 <li>各種WebサービスのMFA<ul>
 <li>FIDO U2F</li>
@@ -40,7 +40,7 @@ Windowsマシンからどうやって使っているかについて、まとめ�
 </ul>
 </li>
 </ul>
-<h3 class="uk-heading-bullet">注意点</h3><p>注意点といいますか、ハマったことを先にメモしておきます。</p>
+<h3 class="uk-heading-bullet"><span>注意点</span></h3><p>注意点といいますか、ハマったことを先にメモしておきます。</p>
 <p><strong>Yubico Authenticator / YubiKey Manager (Windows)が一部のUSBポートに挿したキーを認識しない</strong>: <a href="https://github.com/Yubico/yubioath-desktop/issues/300">このissue</a>によると、
 libusbに起因するバグのようです。自分の場合は、Thunderbolt 3接続のUSB Hubの先に挿したキーが認識されませんでした。
 FIDO U2FやOpenPGPを使用するアプリは動作するので、問題になるのは、主にセットアップやOATH-TOTPを使う場合でしょう。
@@ -48,41 +48,41 @@ workaroundとしては、上記のissueにある通り、CLI(<code>ykman.exe</co
 <p><strong>PIVモードでは、4096bit RSAを利用できない</strong>: <a href="https://github.com/Yubico/yubico-piv-tool/issues/58">このissue</a>にある通り、そもそもPIVの定義に4096 bitが存在しないので、プロトコル的にサポートできていない(できない)ようです。</p>
 <p><strong>OSの同じインタフェースを使うアプリは同時に使えない</strong>: 例えば、PIVとOpenPGPは、Windowsにおいて(Windowsでなくても?)同じスマートカードのAPIを使用する(はずな)ので、たとえばFirefox+OpenSCで証明書を使おうとすると、Firefoxが常にカードに接続しっぱなしになってしまうので、OpenPGPがカードにアクセスできなくなってしまうという問題があります。そのため、OpenPGPを利用しようとすると、Firefoxをすべて終了する必要があり、あまり現実的ではありません。なお、FIDO U2Fなどは、HIDを利用している(はず)ので、この場合でも同時に利用できます。</p>
 <p><strong>AWSが複数のキーを登録できない</strong>: YubiKeyの制約ではありませんが、AWSアカウント(Amazonアカウント全般?)で複数のSecurity keyの登録ができませんでした。これでは、バックアップキーの登録ができません。しょうがないので、OATH-HOTPを使うことにしました。</p>
-<h2 class="">物理インタフェース</h2><p>YubiKey 5シリーズにはいくつか製品が存在しますが、主な違いは物理インタフェースと物理サイズです。
+<h2 class="uk-heading-line"><span>物理インタフェース</span></h2><p>YubiKey 5シリーズにはいくつか製品が存在しますが、主な違いは物理インタフェースと物理サイズです。
 筆者の所有しているYubiKey 5 NFCは、USB Type AとNFCです。といっても、NFCを利用したことはかなり少ないです。</p>
 <p>なお、筆者は、当初はType Aのあるノートパソコンを利用していたので問題なかったのですが、最近Type Cしかないものに買い換えたので、USBハブを経由するか変換アダプタをかませる必要がでてきました。
 他方、Type C版のYubiKey 5Cシリーズは、NFCに対応しておらず、帯に短しな感じです。
 このあたりの制約を踏まえて、製品を選択するとよいでしょう。</p>
 <p>NFCでもいろいろなプロトコルを利用できるようですが、もっぱらスマホからの利用で、しかもあまり通信が安定しないので、OATH-HOTPとFIDO U2Fでしか使用していません。
 Androidでは、<a href="https://play.google.com/store/apps/details?id=com.yubico.yubioath">Yubico Authenticator</a>と<a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">Google Authenticator</a>を使用しています(後者はGoogleアカウントでFIDO U2Fを使用するため)。</p>
-<h2 class="">FIDO U2F</h2><p>最近最も認知されているセキュリティキーの使い方はこれでしょう。
+<h2 class="uk-heading-line"><span>FIDO U2F</span></h2><p>最近最も認知されているセキュリティキーの使い方はこれでしょう。
 MFAとして、ブラウザからのログイン時にセキュリティキーを挿しておき、パスワードの認証後、キーにあるボタンをタッチすることで「所持情報」を認証に使用するものです。</p>
-<h3 class="uk-heading-bullet">セットアップ</h3><p>Webサービスがサポートしている必要があります。GoogleやAWSやGitHubといったものが対応しています。</p>
+<h3 class="uk-heading-bullet"><span>セットアップ</span></h3><p>Webサービスがサポートしている必要があります。GoogleやAWSやGitHubといったものが対応しています。</p>
 <p>セットアップは簡単で、それぞれのWebサービスにログインして、アカウントの設定からセキュリティキーを登録するだけです。</p>
-<h3 class="uk-heading-bullet">バックアップキー</h3><p>だいたいのサービスは、一つのアカウントに対して、複数のセキュリティキーを登録することができるので、メインキー→バックアップキーの2回登録を行えばよいだけです。</p>
+<h3 class="uk-heading-bullet"><span>バックアップキー</span></h3><p>だいたいのサービスは、一つのアカウントに対して、複数のセキュリティキーを登録することができるので、メインキー→バックアップキーの2回登録を行えばよいだけです。</p>
 <p>Revokeも単純にそのキーの登録を削除するだけです。</p>
-<h2 class="">OATH-TOTP</h2><p>ワンタイムパスワードのプロトコルです。TOTPは時刻ベースでワンタイムパスワードを生成するものです。生成されたコードを、ログイン時にパスワードに加えて入力することで認証に使用します。</p>
+<h2 class="uk-heading-line"><span>OATH-TOTP</span></h2><p>ワンタイムパスワードのプロトコルです。TOTPは時刻ベースでワンタイムパスワードを生成するものです。生成されたコードを、ログイン時にパスワードに加えて入力することで認証に使用します。</p>
 <p>最近よく見かけるタイプのワンタイムパスワードで、スマホの各種Authenticatorアプリで6桁～10桁の数字を生成するタイプのものは、ほぼこれに該当するでしょう。</p>
-<h3 class="uk-heading-bullet">セットアップ</h3><p>こちらもWebサービスがサポートしている必要があります。FIDO U2Fよりはサポートしているサイトが多い印象です。</p>
+<h3 class="uk-heading-bullet"><span>セットアップ</span></h3><p>こちらもWebサービスがサポートしている必要があります。FIDO U2Fよりはサポートしているサイトが多い印象です。</p>
 <p>アプリとしては、<a href="https://www.yubico.com/products/services-software/download/yubico-authenticator/">Yubico Authenticator</a>を使用しています。
 Authenticatorに各Webサービスで表示されるQRコードを読み込ませることで、各種パラメータ・SecretをYubiKeyに登録することができます。</p>
-<h3 class="uk-heading-bullet">バックアップキー</h3><p>QRコードは最初の一回しか生成されませんし、各種パラメータをYubiKeyから読むことは当然できませんので、そのパラメータを何らかの方法で保存し、Authenticatorに登録する手順をそれぞれのキーで繰り返します。
+<h3 class="uk-heading-bullet"><span>バックアップキー</span></h3><p>QRコードは最初の一回しか生成されませんし、各種パラメータをYubiKeyから読むことは当然できませんので、そのパラメータを何らかの方法で保存し、Authenticatorに登録する手順をそれぞれのキーで繰り返します。
 つまり、もっとも簡単には、QRコードの画像を何らかの方法で保存し、YubiKeyを差し替えてAuthenticatorで登録することで複数のキーを使うことができます。
 パラメータが同じであれば生成される数字も同じですので、どちらのキーを使用しても同じ値を得ることができます。</p>
 <p>筆者の知る限り、複数に対応しているサービスはないと思いますので、これ以外にバックアップキーを利用する方法は事実上ないと思われます。
 この方法では二つのキーの持っている情報は同じなので、Revokeについては多少問題になります。
 各Webサービスに、バックアップキーを用いてログインしたのちに、再度新たなパラメータを生成して登録しなおすことになるでしょう。</p>
-<h2 class="">Static Password (OTP)</h2><p>自分は使ってはいませんが、YubiKeyでは、静的なパスワードを設定することができます。
+<h2 class="uk-heading-line"><span>Static Password (OTP)</span></h2><p>自分は使ってはいませんが、YubiKeyでは、静的なパスワードを設定することができます。
 YubiKeyの真ん中の金色のボタンに触れることで、キーボード入力としてそれを入力することができます。
 用途としては、パスワードマネージャのマスターパスワードとか、パスワードの共通部分(prefix)として使うとかでしょうか。セキュリティ的に本当によいのかどうかはよくわかりません。</p>
 <p>Staticなので、厳密にはOTPではない気がしますが、YubiKeyのカテゴリとしてはOTPに入っています。
 いちおう理論上、StaticとOATH-TOTPを併用することができるかと思いますが、それだと複数要素にならない(Staticをそのまま使う場合)と思うのでやらないほうがよさそうです。</p>
-<h3 class="uk-heading-bullet">セットアップ</h3><p><code>ykman</code>などでできます。YubiKey 5 NFCにはOTPのスロットが二つあり、スロット1が短くボタンに触れた場合、スロット2が長くボタンに触れた場合に選択されます。</p>
-<h3 class="uk-heading-bullet">バックアップキー</h3><p>同じ静的パスワードを設定すればいいので、自明です。
+<h3 class="uk-heading-bullet"><span>セットアップ</span></h3><p><code>ykman</code>などでできます。YubiKey 5 NFCにはOTPのスロットが二つあり、スロット1が短くボタンに触れた場合、スロット2が長くボタンに触れた場合に選択されます。</p>
+<h3 class="uk-heading-bullet"><span>バックアップキー</span></h3><p>同じ静的パスワードを設定すればいいので、自明です。
 Revokeについては、TOTPの場合とほぼ同じく、利用しているサービスすべてでパスワードを変更するということになるでしょう。</p>
-<h2 class="">OpenPGP</h2><p>個人的に重要なのは、このOpenPGPです。利用法は、メールのアレに使っているというよりは、sshの認証鍵の格納先としてがメインです。</p>
+<h2 class="uk-heading-line"><span>OpenPGP</span></h2><p>個人的に重要なのは、このOpenPGPです。利用法は、メールのアレに使っているというよりは、sshの認証鍵の格納先としてがメインです。</p>
 <p>次節のPIVでもできるようですが、PIVはRSA 4096bitに対応していないというのと、Windowsだとputtyの改造である<a href="https://risacher.org/putty-cac/">PuTTY-CAC</a>くらいしか、サポートしているsshクライアントがWindowsには存在しないという問題点があったため、自分はOpenPGPを利用しています。</p>
-<h3 class="uk-heading-bullet">セットアップ</h3><p>ソフトウェアとしては、<a href="https://gpg4win.org/index.html">Gpg4win</a>を利用しています。</p>
+<h3 class="uk-heading-bullet"><span>セットアップ</span></h3><p>ソフトウェアとしては、<a href="https://gpg4win.org/index.html">Gpg4win</a>を利用しています。</p>
 <p>スマートカード上での鍵のセットアップについては、gpgのマニュアルとか<a href="https://github.com/drduh/YubiKey-Guide">例えばこういう解説</a>をご覧ください。</p>
 <p>その後は、Gpg4winの<code>gpg-agent</code>を使って、<code>enable-putty-support</code>オプションを<code>gpg-agent.conf</code>に追加して、pageant互換のエージェントを有効にします。</p>
 <p>最近のWindowsでは、sshクライアントとしては、次の3パターンが考えられると思いますので、それぞれのやり方を簡単に述べます。</p>
@@ -91,10 +91,10 @@ Revokeについては、TOTPの場合とほぼ同じく、利用しているサ�
 <p><strong>Windows標準のssh</strong>: これも<a href="https://github.com/benpye/wsl-ssh-pageant">wsl-ssh-pageant</a>を使うことができます。<code>-winssh</code>オプションで、Windowsの名前付きパイプを作成することができます。</p>
 <p>個人的には、上記の2番目と3番目の両方を使っています。というのは、普通の操作はWSLなのですが、Visual Studio CodeのRemote development(ssh)を利用するときには、ホスト(Windows)のsshを利用するほうが簡単だからです。
 幸い、<code>wsl-ssh-pageant</code>は両方のオプションを同時に指定(ソケットとパイプを両方作成)することができますので、これ一つで万事解決となります。</p>
-<h3 class="uk-heading-bullet">バックアップキー</h3><p>同じキーペアを2つのYubiKeyで使うことは、revokeができなくなってしまうので避けたほうがいいと思います。
+<h3 class="uk-heading-bullet"><span>バックアップキー</span></h3><p>同じキーペアを2つのYubiKeyで使うことは、revokeができなくなってしまうので避けたほうがいいと思います。
 同じセットアップ手順を繰り返し、多少手間ではありますが、<code>authorized_keys</code>に二つの公開鍵を書くのがよいのではないでしょうか。</p>
 <p>その場合には、revokeをするには対応する公開鍵を削除すればよいだけです。</p>
-<h2 class="">PIV (Smartcard)</h2><p>PIVモードをWindowsから利用するには、OpenSCを用いるのが確実なようです。いちおうWindows標準でもなにがしか認識しているようですが、肝心の鍵を利用できなかったりするので、要調査です。</p>
+<h2 class="uk-heading-line"><span>PIV (Smartcard)</span></h2><p>PIVモードをWindowsから利用するには、OpenSCを用いるのが確実なようです。いちおうWindows標準でもなにがしか認識しているようですが、肝心の鍵を利用できなかったりするので、要調査です。</p>
 <p>なお、筆者は結局のところこれは利用していません。
 sshで利用しようとしたのですが、前述のとおり、PuTTY-CACくらいしかWindowsでは使えないので断念しました。(Linuxでは、<code>ssh</code>コマンドの<code>-I</code>オプションでOpenSCのモジュールを指定するとできるようです)
 また、(HTTPSでの)TLSのクライアント証明書の格納に使おうと思ったのですが、セットアップこそしましたが下記の理由で結局使っておりません。</p>
@@ -103,7 +103,7 @@ sshで利用しようとしたのですが、前述のとおり、PuTTY-CACく�
 <li>RSA 2048bitまでという制約</li>
 </ul>
 <p>他方、OpenPGPの証明書をブラウザから使う方法は、全く見つかりませんでした。それがあれば問題ないんですけどね・・</p>
-<h3 class="uk-heading-bullet">セットアップ</h3><p>ともかく、どうセットアップしたかについて説明をします。</p>
+<h3 class="uk-heading-bullet"><span>セットアップ</span></h3><p>ともかく、どうセットアップしたかについて説明をします。</p>
 <p>まずは、とりあえず鍵の生成が必要です。<code>ykman</code>などのツールを使います。
 (PIN等の設定は省きます)</p>
 <p>なお、下記の<code>9a</code>はスロット番号です。適当な番号に変更してください。</p>
@@ -115,9 +115,9 @@ Enter PIN:</code></pre><p>これでできたCSRをCAに対して送って、証�
 <pre><code>$ ykman piv import-certificate 9a (certificate file)</code></pre><p>なお、別のCAを使わない場合には、<code>ykman piv generate-certificate</code>を使うと自己署名の証明書を発行することができます。</p>
 <p>次に、<a href="https://www.yubico.com/products/services-software/download/smart-card-drivers-tools/">smart cardのminidriver</a>をインストールすれば、Chrome等からクライアント証明書として利用可能になります。
 firefoxでは、<a href="https://github.com/OpenSC/OpenSC/wiki/Installing-OpenSC-PKCS%2311-Module-in-Firefox,-Step-by-Step">OpenSCのPKCS #11モジュールを追加</a>して、証明書をカードをインポートすることで利用できます。</p>
-<h3 class="uk-heading-bullet">バックアップ</h3><p>OpenPGPの場合と同様に、セットアップを各YubiKeyで繰り返すことになると思います。
+<h3 class="uk-heading-bullet"><span>バックアップ</span></h3><p>OpenPGPの場合と同様に、セットアップを各YubiKeyで繰り返すことになると思います。
 Revokeは、CA側で対象のKeyの証明書をrevokeしてもらえばOKのはずです。</p>
-<h2 class="">そのほか</h2><p>自分は使用していませんが、<a href="https://www.yubico.com/products/services-software/download/computer-login-tools/">Windowsのログイン(ローカルアカウントの場合)に利用できたりするようです</a>。
+<h2 class="uk-heading-line"><span>そのほか</span></h2><p>自分は使用していませんが、<a href="https://www.yubico.com/products/services-software/download/computer-login-tools/">Windowsのログイン(ローカルアカウントの場合)に利用できたりするようです</a>。
 また、個人的にはLinuxはssh経由以外で使っていないので、Linuxでの例についてはほとんど触れられませんでした。</p>
 <p>え?Mac?なんですかそれ。</p>
 </div></p></article></div></div><!----><footer class="uk-margin-auto-top"><p class="uk-text-small uk-text-muted uk-text-center">Copyright © 2018-2021 nikorisoft - Ver.0.3.4</p></footer></div></div>

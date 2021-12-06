@@ -25,17 +25,17 @@
 <p>そんなわけで、今回の目的は、ブラウザ上でギャップレス再生によって、音楽プレイヤー的なものを作るにはどうしたらいいのかを書いてみたいと思います。試行錯誤を含めて書いていますので、一番最後の結論だけが情報として有用でしょう。</p>
 <p>ストリーミング再生をある意味自力で作り上げるようなものになっています。</p>
 <p>ここでのサンプルプログラムは、ブラウザの標準的な機能だけ使うことにして、ほかの外部ライブラリを使わずに書いています。(<code>document.getElementById()</code>を直接書くなんてすごくひさしぶりな気がする・・)</p>
-<h2 class="">題材</h2><p><a href="https://ja.wikipedia.org/wiki/%E8%8A%B1_(%E7%80%A7%E5%BB%89%E5%A4%AA%E9%83%8E)">滝廉太郎の「花」</a>の前奏部分を2ファイルに分けてみました。切れ目なく違和感なく、この2つのファイルを続けて再生することが目標ということになります。</p>
+<h2 class="uk-heading-line"><span>題材</span></h2><p><a href="https://ja.wikipedia.org/wiki/%E8%8A%B1_(%E7%80%A7%E5%BB%89%E5%A4%AA%E9%83%8E)">滝廉太郎の「花」</a>の前奏部分を2ファイルに分けてみました。切れ目なく違和感なく、この2つのファイルを続けて再生することが目標ということになります。</p>
 <ul>
 <li><a href="../../blog/resources/samples/Hana_00.wav">その1 (WAV)</a></li>
 <li><a href="../../blog/resources/samples/Hana_01.wav">その2 (WAV)</a></li>
 </ul>
-<h2 class="">環境</h2><p>サンプルは下記の環境でテストしました。</p>
+<h2 class="uk-heading-line"><span>環境</span></h2><p>サンプルは下記の環境でテストしました。</p>
 <ul>
 <li>OS: Windows 10 Pro 20H2 (19042.685)</li>
 <li>ブラウザ: Firefox 83.0, Edge 87.0.664.60, Chrome 87.0.4280.88</li>
 </ul>
-<h2 class="">audio tag</h2><p>まずは、<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio">audioタグ</a>です。
+<h2 class="uk-heading-line"><span>audio tag</span></h2><p>まずは、<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio">audioタグ</a>です。
 二つ並べて、片方が終わったら、そのイベントハンドラで、もう片方の再生を開始してみましょう。</p>
 <pre><code><span class="hljs-tag">&lt;<span class="hljs-name">audio</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;audio1&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">source</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;Hana_00.wav&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;audio/wav&quot;</span>&gt;</span>
@@ -54,8 +54,8 @@
     audio1.<span class="hljs-title function_">play</span>();
 }</code></pre><p>とします。</p>
 <p>実際の<a href="../../blog/resources/samples/16-1.html">サンプル</a>です。</p>
-<h3 class="uk-heading-bullet">結果</h3><p>悲しいくらいダメですね。再生が終わってからコールバックを待って、さらにそこから新しいのを再生させるようでは無理がありますね。</p>
-<h2 class="">WebAudio</h2><p>では、<a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Using_Web_Audio_API">WebAudio</a>を使って同じようなことをしてみましょう。</p>
+<h3 class="uk-heading-bullet"><span>結果</span></h3><p>悲しいくらいダメですね。再生が終わってからコールバックを待って、さらにそこから新しいのを再生させるようでは無理がありますね。</p>
+<h2 class="uk-heading-line"><span>WebAudio</span></h2><p>では、<a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Using_Web_Audio_API">WebAudio</a>を使って同じようなことをしてみましょう。</p>
 <pre><code><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">start</span>(<span class="hljs-params"></span>) {
     <span class="hljs-keyword">const</span> ctx = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AudioContext</span>();
 
@@ -79,8 +79,8 @@
 
     src1.<span class="hljs-title function_">start</span>();
 }</code></pre><p>実際の<a href="../../blog/resources/samples/16-2.html">サンプル</a>です。</p>
-<h3 class="uk-heading-bullet">結果</h3><p>DOMの処理がないためか、Audioタグを使った場合よりも、どのブラウザでもギャップは少なくなりましたが、それでもちょっとギャップレスとは言いがたいものになっています。</p>
-<h2 class="">WebAudio - Concatenate the buffers</h2><p>WebAudioを使えばバッファの操作ができるようになりますので、再生前にバッファをくっつけてしまうのはどうでしょうか。最終形を確認するためにも、やってみることにしましょう。</p>
+<h3 class="uk-heading-bullet"><span>結果</span></h3><p>DOMの処理がないためか、Audioタグを使った場合よりも、どのブラウザでもギャップは少なくなりましたが、それでもちょっとギャップレスとは言いがたいものになっています。</p>
+<h2 class="uk-heading-line"><span>WebAudio - Concatenate the buffers</span></h2><p>WebAudioを使えばバッファの操作ができるようになりますので、再生前にバッファをくっつけてしまうのはどうでしょうか。最終形を確認するためにも、やってみることにしましょう。</p>
 <pre><code><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">start</span>(<span class="hljs-params"></span>) {
     <span class="hljs-keyword">const</span> ctx = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AudioContext</span>();
 
@@ -103,8 +103,8 @@
     src.<span class="hljs-title function_">connect</span>(ctx.<span class="hljs-property">destination</span>);
     src.<span class="hljs-title function_">start</span>();
 }</code></pre><p>実際の<a href="../../blog/resources/samples/16-3.html">サンプル</a>です。</p>
-<h3 class="uk-heading-bullet">結果</h3><p>かなりよいのですが、予想に反して自分の環境ではどのブラウザでも微小なノイズがあります。というか理論上ギャップがでることはないはずなのですが・・・</p>
-<h2 class="">WebAudio - Tweak the source</h2><p>この2ファイルをローカルのギャップレス再生が可能なプレーヤー(foobar2000とか)につっこんでも特にノイズがないことから、ブラウザの処理に何らかの問題があることがわかります。</p>
+<h3 class="uk-heading-bullet"><span>結果</span></h3><p>かなりよいのですが、予想に反して自分の環境ではどのブラウザでも微小なノイズがあります。というか理論上ギャップがでることはないはずなのですが・・・</p>
+<h2 class="uk-heading-line"><span>WebAudio - Tweak the source</span></h2><p>この2ファイルをローカルのギャップレス再生が可能なプレーヤー(foobar2000とか)につっこんでも特にノイズがないことから、ブラウザの処理に何らかの問題があることがわかります。</p>
 <p>で、いろいろ見ていくと、<code>buffer.sampleRate</code>が48000であることに気づきます。もとのファイルは、44100でした。なので、デコードする段階(<code>AudioContext.decodeAudioData</code>)で、サンプリングレート変換が発生していることがわかります。たぶんブラウザが強制的に48kHzとしているのでしょう。</p>
 <p>そんなわけで、新たな音声ソースを用意しました（元のファイルとは微妙に長さなどが異なっています）。</p>
 <ul>
@@ -112,8 +112,8 @@
 <li><a href="../../blog/resources/samples/Hana48k_01.wav">その2 - 48kHz版 (WAV)</a></li>
 </ul>
 <p>これを使って、<a href="../../blog/resources/samples/16-4.html">48kHz版サンプル</a>でリトライしてみましょう。</p>
-<h3 class="uk-heading-bullet">結果</h3><p>今度は問題ないようです。二つのファイルの境界部分がサンプリングレート変換の影響でうまく合わなくなっていたのでしょう。</p>
-<h3 class="uk-heading-bullet">別解</h3><p>別解としては、AudioContextを作成する際にサンプリングレートを44100にしてしまうという方法が考えられます。</p>
+<h3 class="uk-heading-bullet"><span>結果</span></h3><p>今度は問題ないようです。二つのファイルの境界部分がサンプリングレート変換の影響でうまく合わなくなっていたのでしょう。</p>
+<h3 class="uk-heading-bullet"><span>別解</span></h3><p>別解としては、AudioContextを作成する際にサンプリングレートを44100にしてしまうという方法が考えられます。</p>
 <pre><code><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">start</span>(<span class="hljs-params"></span>) {
     <span class="hljs-keyword">const</span> ctx = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AudioContext</span>({
         <span class="hljs-attr">sampleRate</span>: <span class="hljs-number">44100</span>
@@ -123,7 +123,7 @@
 <p>ただ、設定すべきサンプリングレートの値は、デコードの前に取得しておかないといけないこと(デコードしてしまうと、その<code>AudioContext</code>のサンプリングレートになってしまう)から、これはこれで若干トリッキーです。</p>
 <p>そして、ここだけに限らないのですが、サンプリングレートが違う曲が混在して再生しなければいけないときにどうするかはなかなか難しい問題でしょう。44100と48000の最小公倍数が現実的だったらよかったのかもしれませんが。</p>
 <p>以下では、とりあえず48kHzのソースを使っていきます。</p>
-<h2 class="">WebAudio - start() at a scheduled time</h2><p>ところで、長大なトラックになると、それを全部バッファに読み込んでおくのは好ましくありません。そもそもドキュメントによると、<code>AudioBuffer</code>は短い音を格納しておくことを目的としているようなので、何分もあるバッファを作るのは（作れてしまいますが）目的外のようです。逆に、一つの長いトラック自体も、短い<code>AudioBuffer</code>に分割してシームレスに再生していくほうが、本来の使い方に近いのではないでしょうか。</p>
+<h2 class="uk-heading-line"><span>WebAudio - start() at a scheduled time</span></h2><p>ところで、長大なトラックになると、それを全部バッファに読み込んでおくのは好ましくありません。そもそもドキュメントによると、<code>AudioBuffer</code>は短い音を格納しておくことを目的としているようなので、何分もあるバッファを作るのは（作れてしまいますが）目的外のようです。逆に、一つの長いトラック自体も、短い<code>AudioBuffer</code>に分割してシームレスに再生していくほうが、本来の使い方に近いのではないでしょうか。</p>
 <p>一つ考えられるのは、ループを用いて、同じバッファを書き換えていく手法です。ただ再生中のバッファを書き換えることは、まあ、どのブラウザでも確実に動作する方法には思えません。再生中のバッファを書き換えることは推奨されないとどこかのドキュメントで読んだ気がしますが、ちょっと見つけられていません。</p>
 <p>ということで、別の方法を使わなくてはなりません。そこで利用したくなるのが、<a href="https://developer.mozilla.org/en-US/docs/Web/API/AudioScheduledSourceNode/start"><code>AudioScheduledSourceNode.start()</code></a>の引数です。(これは、上の例で使っていた<code>AudioBufferSourceNode</code>も継承しています) これで指定した時刻にバッファを再生することができます。</p>
 <p>すなわち、バッファ1の再生を開始した後、バッファ2をバッファ1が終わる時刻に再生開始するようにしておけば、ギャップレス再生できるはずですが、そううまくいくでしょうか。とりあえず、下記のようなコードで試してみましょう。</p>
@@ -148,9 +148,9 @@
     <span class="hljs-keyword">const</span> t = ctx.<span class="hljs-property">currentTime</span>;
     src2.<span class="hljs-title function_">start</span>(t + buffer1.<span class="hljs-property">duration</span>);
 }</code></pre><p><a href="../../blog/resources/samples/16-5.html">サンプル</a>です。</p>
-<h3 class="uk-heading-bullet">結果</h3><p>Edge, ChromeのChrome系ブラウザは、ノイズは聞こえないようです。ですが、Firefoxでは合間にノイズが聞こえてしまいます。</p>
+<h3 class="uk-heading-bullet"><span>結果</span></h3><p>Edge, ChromeのChrome系ブラウザは、ノイズは聞こえないようです。ですが、Firefoxでは合間にノイズが聞こえてしまいます。</p>
 <p>まあコードから明らかですが、<code>src1.start()</code>と<code>ctx.currentTime</code>を読み取るタイミングが、(ノイズが聞こえないくらい)十分近いとは誰も保障してくれるわけではありません。Chromeはたまたまうまくいっていると見るべきでしょう。</p>
-<h2 class="">WebAudio - start() at a scheduled time (2)</h2><p>ではどうすればいいかというと、そもそもバッファ1の再生時刻も予測可能にしてしまえばよいわけです。</p>
+<h2 class="uk-heading-line"><span>WebAudio - start() at a scheduled time (2)</span></h2><p>ではどうすればいいかというと、そもそもバッファ1の再生時刻も予測可能にしてしまえばよいわけです。</p>
 <p>ということで、下記のようなコードにしてみます。</p>
 <pre><code><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">start</span>(<span class="hljs-params"></span>) {
 <span class="hljs-comment">// [snip]</span>
@@ -159,13 +159,13 @@
     src1.<span class="hljs-title function_">start</span>(t);
     src2.<span class="hljs-title function_">start</span>(t + buffer1.<span class="hljs-property">duration</span>);
 }</code></pre><p><a href="../../blog/resources/samples/16-6.html">サンプル</a>です。</p>
-<h3 class="uk-heading-bullet">結果</h3><p>これでどのブラウザでもノイズなくギャップレス再生ができるようになります。意外と精度よく時刻指定できるものですね。</p>
+<h3 class="uk-heading-bullet"><span>結果</span></h3><p>これでどのブラウザでもノイズなくギャップレス再生ができるようになります。意外と精度よく時刻指定できるものですね。</p>
 <p>もちろん、200msのウェイトを加えているので、ボタンを押してから微妙に時間差を感じることになりますが、実際も音声データを取ってくる処理とかがはいるので、まあこれは許容できるでしょう。</p>
-<h2 class="">まとめ</h2><p>以上をまとめて、複数の大きな<code>AudioBuffer</code>を細かいバッファでダブルバッファ方式で再生していく<a href="https://gist.github.com/nikorisoft/4f12bff7351c351f0e886a60bda10140">クラスを書いてみました</a>。が、いろいろと不備があるので、このままで使えるものではないと思いますので、使い方など細かいことの説明は省略します。</p>
+<h2 class="uk-heading-line"><span>まとめ</span></h2><p>以上をまとめて、複数の大きな<code>AudioBuffer</code>を細かいバッファでダブルバッファ方式で再生していく<a href="https://gist.github.com/nikorisoft/4f12bff7351c351f0e886a60bda10140">クラスを書いてみました</a>。が、いろいろと不備があるので、このままで使えるものではないと思いますので、使い方など細かいことの説明は省略します。</p>
 <p>まあ、そもそも、デコードしている段階で、<code>AudioBuffer</code>は作られてしまっているのでそれをさらに分割する意味は全くない気がしますね。あるとすれば、<code>AudioBufferSourceNode</code>からは途中ではイベントが発生しないので（再生終了時のみ）、分割することで細かくイベントを発生させられるというくらいでしょうか。</p>
-<h2 class="">おまけ</h2><p>今回は、WAVファイルを使いましたが、実際にはなんらかのフォーマットでエンコードした形式を使うことになるでしょう。サンプリングレートのような問題がでるかどうかを確認してみたいと思います。</p>
+<h2 class="uk-heading-line"><span>おまけ</span></h2><p>今回は、WAVファイルを使いましたが、実際にはなんらかのフォーマットでエンコードした形式を使うことになるでしょう。サンプリングレートのような問題がでるかどうかを確認してみたいと思います。</p>
 <p>この<a href="../../blog/resources/samples/16-7.html">サンプル</a>を使用して、対応しているいろいろなフォーマットでエンコードしたファイルから、デコードした結果(長さ)を示します。</p>
-<h3 class="uk-heading-bullet">48kHzのソース</h3><table class="uk-table uk-table-divider uk-table-small"><thead><tr>
+<h3 class="uk-heading-bullet"><span>48kHzのソース</span></h3><table class="uk-table uk-table-divider uk-table-small"><thead><tr>
 <th>Audio Format</th>
 <th>00 (Firefox)</th>
 <th>01 (Firefox)</th>
@@ -208,7 +208,7 @@
 <td>189760</td>
 </tr>
 </tbody></table><p>あまりブレがなさそうな48kHzのソースですが、Chromeだとoggの場合のみ、ほかのものと長さが変わってきています。</p>
-<h3 class="uk-heading-bullet">44.1kHzのソース</h3><p>次にデフォルトの<code>AudioContext</code>で、48kHzへの変換が起きた場合にどうなるかです。</p>
+<h3 class="uk-heading-bullet"><span>44.1kHzのソース</span></h3><p>次にデフォルトの<code>AudioContext</code>で、48kHzへの変換が起きた場合にどうなるかです。</p>
 <table class="uk-table uk-table-divider uk-table-small"><thead><tr>
 <th>Audio Format</th>
 <th>00 (Firefox)</th>
