@@ -18,7 +18,7 @@
         <title>Scroll snap もしくは高松空港ガイド - nikory</title>
     </head>
     <body>
-        <div class="uk-section-small"><div class="uk-container uk-container-large"><nav class="uk-navbar-container uk-margin-bottom"><div class="uk-navbar-left"><a class="uk-navbar-item uk-logo" href="/">nikori.jp</a><ul class="uk-navbar-nav"><li><a href="/nikory/articles/18.html">Latest Article</a></li><li><a href="/nikory/index.html">Article Index</a></li></ul></div></nav><div class="article"><div class="article-body"><ul class="uk-pagination"><li><a href="./17.html"><span uk-pagination-previous></span><span class="uk-margin-small-left">Previous</span></a></li><!----></ul><article class="uk-article" id="article"><h1 class="uk-article-title">Scroll snap もしくは高松空港ガイド</h1><p class="uk-article-meta"><span>Last updated on 12/5/2021, 2:49:16 PM, originally posted on 12/4/2021, 5:41:39 PM</span> by <a href="https://github.com/nikorisoft">nikorisoft</a><div class="contents"><p>このエントリは、<a href="https://adventar.org/calendars/6531">異世界行ったら本気だすぴょこりんクラスタ Advent Calendar 2021</a>のために書かれたものです。</p>
+        <div class="uk-section-small"><div class="uk-container uk-container-large"><nav class="uk-navbar-container uk-margin-bottom"><div class="uk-navbar-left"><a class="uk-navbar-item uk-logo" href="/">nikori.jp</a><ul class="uk-navbar-nav"><li><a href="/nikory/articles/19.html">Latest Article</a></li><li><a href="/nikory/index.html">Article Index</a></li></ul></div></nav><div class="article"><div class="article-body"><ul class="uk-pagination"><li><a href="./17.html"><span uk-pagination-previous></span><span class="uk-margin-small-left">Previous</span></a></li><li class="uk-margin-auto-left"><a href="./19.html"><span>Next</span><span class="uk-margin-small-left" uk-pagination-next></span></a></li></ul><article class="uk-article" id="article"><h1 class="uk-article-title">Scroll snap もしくは高松空港ガイド</h1><p class="uk-article-meta"><span>Last updated on 12/5/2021, 6:47:41 PM, originally posted on 12/4/2021, 5:41:39 PM</span> by <a href="https://github.com/nikorisoft">nikorisoft</a><div class="contents"><p>このエントリは、<a href="https://adventar.org/calendars/6531">異世界行ったら本気だすぴょこりんクラスタ Advent Calendar 2021</a>のために書かれたものです。</p>
 <p>さて、12月になっている気がしますが、今年(2021年)最初の記事です。昨年があんまりにもあんまりだったので、今年はもう少しいろいろできるかなと思ったのですが、やっぱりそうもいかない世界でした。今年は、あんまりプログラムを書くことができていないので、昨年よりもネタがないのですが、なんとか書いていきたいと思います。</p>
 <h2 class="">空港ガイド？</h2><p>このエントリは、日本の空港にたどり着くためのルートを紹介する企画の一つとして、高松空港を題材とするものです。高松空港である理由は、久しぶりの国内旅行の目的地であったからです。なお、この国内旅行は、2020年2月来初めてということになります。長かったですね。</p>
 <p>一般に空港に行くなら、鉄道があれば鉄道、たいていは空港バスに乗るとかが普通だとは思いますが（もちろんアメリカなどの国々ではこの限りではありませんが）、この企画は、あえて鉄道と徒歩でアプローチできないかを模索するものです。なぜかといえば、バスだとつまらないし、市内から徒歩はさすがにつらすぎるからです。あくまで鉄道にこだわるところが、日本的でいいんじゃないでしょうか。</p>
@@ -40,16 +40,17 @@
 <li>カメラ: <a href="https://cweb.canon.jp/camera/dcam/lineup/powershot/g1xmk3/">Canon Powershot G1 X Mark III</a></li>
 <li>GPS記録: <a href="https://www.garmin.com/en-US/p/702902">Garmin fenix 6 Pro Solar</a></li>
 </ul>
-<p>また、Webページを作るにあたっては、地図の作成に次のライブラリを使いました。</p>
+<p>また、Webページを作るにあたっては、インタラクティブな地図の描画に次のライブラリを使いました。</p>
 <ul>
 <li><a href="https://leafletjs.com/">Leaflet - a JavaScript library for interactive maps</a></li>
 </ul>
+<p>カメラで撮影した場所のプロットは、カメラ側にGPSがないので(Bluetoothでスマホと連携すればできるようですが面倒なのでしていません)、fenix 6 Proの画面を写真でとることで、そのときの画像ファイルのタイムスタンプとGPSログの時間差を補正した上で、その時刻にいた位置としています。</p>
 <p>さらに、下記のサイトも参考にしました。</p>
 <ul>
 <li><a href="https://ics.media/entry/191211/">モダンなJSとCSSで作るライブラリ不要の全画面スクロール演出（2019年版）</a></li>
 </ul>
-<p>こういう普通に見る分には邪魔な感じのWebページを一度作成してみたかったということで、作ってみました。リンク先にも書かれていますが、最近はcssやJavaScriptで複雑なライブラリを使わずにできるようになっていてすばらしいと思います。</p>
-<p>ルート図には、OpenStreetMapを使用していますが、さすがに地方なだけあり一部の溜め池や道路（小田池の周りなど）が地図に描かれていませんでした。とはいえ、フリーで使える地図としてはさすがという感じです。</p>
+<p>こういう普通に見る分には邪魔な感じのWebページを一度作成してみたかったということで、作ってみました。リンク先にも書かれていますが、最近はcssやJavaScriptで複雑なライブラリを使わずにできるようになっていてすばらしいと思います。Interaction Observer APIとか全く知りませんでした。</p>
+<p>ルート図には、OpenStreetMapを使用していますが、さすがに地方なだけあり一部の溜め池や道路（小田池の周りなど）が地図に描かれていませんでした。とはいえ、フリーで使える地図としてはさすがという感じです。やっぱり地図を扱うのは、いろいろおもしろいので、今後もう少し別のアプリとか作ってみたくなりますね。</p>
 <h2 class="">まとめ</h2><p>やはりバスなどで行くよりも、徒歩で行くことは周りの風景とか雰囲気をより味わうことができるので、時間に余裕のある場合にはおすすめです。</p>
 <p>問題があるとすれば、空港に行く場合には大抵荷物があるので、20分とかですら歩くのがつらい場合が多いことでしょうか。（今回もバックパック一つとはいえ、11kgくらいあったので、まあまあつらかったです）</p>
 <p>荷物を別途送るなどいろいろ方法がありますが、どんどん本末転倒になるので、難しいところです。やはり空港は、旅行のついでに行くのではなく、飛行機の乗ることや空港に行くことそのものを目的とするのが一番よいのでしょう。</p>
