@@ -8,7 +8,7 @@
         <meta property="og:type" content="article">
         <meta property="og:url" content="https://nikori.jp/nikory/articles/22.html">
         <meta property="og:image" content="https://nikori.jp/blog/resources/tbs/22_tb.jpg">
-        <meta property="og:description" content="グローバルな経験値を入力するサイトを作ってみる">
+        <meta property="og:description" content="グローバルな経県値を入力するサイトを作ってみる">
 
         <link rel="stylesheet" href="/ext/uikit/css/uikit.min.css">
         <link rel="stylesheet" href="/nikory/nikory.css">
@@ -18,16 +18,16 @@
         <title>Plastic Bubbles are Valued as Experience Points - nikory</title>
     </head>
     <body>
-        <div class="uk-section-small"><div class="uk-container uk-container-large"><nav class="uk-navbar-container uk-margin-bottom"><div class="uk-navbar-left"><a class="uk-navbar-item uk-logo" href="/">nikori.jp</a><ul class="uk-navbar-nav"><li><a href="/nikory/articles/22.html">Latest Article</a></li><li><a href="/nikory/index.html">Article Index</a></li></ul></div></nav><div class="article"><div class="article-body"><ul class="uk-pagination"><li><a href="./21.html"><span uk-pagination-previous></span><span class="uk-margin-small-left">Previous</span></a></li><!----></ul><article class="uk-article" id="article"><h1 class="uk-article-title">Plastic Bubbles are Valued as Experience Points</h1><p class="uk-article-meta"><span>Posted on 12/20/2021, 10:12:08 PM</span> by <a href="https://github.com/nikorisoft">nikorisoft</a><div class="contents"><p>このエントリは、<a href="https://adventar.org/calendars/6531">異世界行ったら本気だすぴょこりんクラスタ Advent Calendar 2021</a>のために書かれたものです。</p>
+        <div class="uk-section-small"><div class="uk-container uk-container-large"><nav class="uk-navbar-container uk-margin-bottom"><div class="uk-navbar-left"><a class="uk-navbar-item uk-logo" href="/">nikori.jp</a><ul class="uk-navbar-nav"><li><a href="/nikory/articles/22.html">Latest Article</a></li><li><a href="/nikory/index.html">Article Index</a></li></ul></div></nav><div class="article"><div class="article-body"><ul class="uk-pagination"><li><a href="./21.html"><span uk-pagination-previous></span><span class="uk-margin-small-left">Previous</span></a></li><!----></ul><article class="uk-article" id="article"><h1 class="uk-article-title">Plastic Bubbles are Valued as Experience Points</h1><p class="uk-article-meta"><span>Last updated on 12/20/2021, 10:35:55 PM, originally posted on 12/20/2021, 10:12:08 PM</span> by <a href="https://github.com/nikorisoft">nikorisoft</a><div class="contents"><p>このエントリは、<a href="https://adventar.org/calendars/6531">異世界行ったら本気だすぴょこりんクラスタ Advent Calendar 2021</a>のために書かれたものです。</p>
 <p>昨今のゲーム(・プラットフォーム)には、かならず実績(achievements)というものがあります。昨今注目されているゲーミフィケーションの一つの要素としては欠かせないものでしょう。適当に検索しただけでも、<a href="https://www.sciencedirect.com/science/article/abs/pii/S074756321930086X">実績はパフォーマンスを向上させる</a>なんて論文も出てくる(本文は読んでいません)くらいですから、人のあらゆる活動において考慮すべき一要素であることは間違いありません。</p>
 <p>そんなわけで(強引な展開)、今回は旅行に伴う実績の一つである「経県値」のお話です。</p>
 <h2 class="uk-heading-line"><span>経県値とは何か</span></h2><p><a href="https://uub.jp/kkn/">こちらのサイト</a>がたぶん最初に提案したのだと思いますが、各都道府県における経験（居住・宿泊・・・）を数値化したものです。経験は居住が最も高い価値を有し5点となっています。これを各都道府県ごとに算出し、それを合計した得点が生涯経県値とされています。</p>
 <p>これは大変良い実績であり、自分もこれを高めるべく日本各地に旅行を行っておりましたが、数年前に全都道府県宿泊となってしまい、これ以上得点を高めるには、いろんな都道府県に居住するということを行う必要があります。これはこれで、多少やろうと思っているところではありますが、いかんせん金銭的コストもそのほか必要な労力も、旅行に比して膨大なものとなるので、そうそう簡単に得点を上げるのは難しいものです。</p>
 <h2 class="uk-heading-line"><span>グローバル経県値</span></h2><p>ということで、この概念を拡張してそれを管理するWebサイトを作ってみようというのが今回のテーマです。拡張というのは、より細分化（経市町村値）するか、より広域化（経国値）するかの二つの方向が考えられますが、今回は後者で行きたいと思います。パンデミックを考慮すると前者のほうがまだやりやすいのかもしれませんが、近い将来に期待をこめてということで。</p>
 <h3 class="uk-heading-bullet"><span>経験値の単位</span></h3><p>では国ごとなのはいいとして、経験値をカウントする単位(広さ)は何にすべきなのでしょうか。一つの案は当然国単位なのですが、<a href="https://www.amcharts.com/visited_countries/">既存のサイト</a>があったりしますし、アメリカ宿泊で4点かーというのもちょっと大味すぎる気がします。ですので、その次の単位、すなわち日本だと都道府県、アメリカだと州くらいがいいのではないでしょうか。</p>
-<h3 class="uk-heading-bullet"><span>県とは?</span></h3><p>その国の次(下位)の単位とはどう定義すればよいでしょうか。名前をとってみても、都道府県(prefecture)・州(State)・地域圏(région)・省・道などなど国さまざまです。何か都合のいい定義はほしくなるところです。</p>
+<h3 class="uk-heading-bullet"><span>県とは?</span></h3><p>その国の次(下位)の単位とはどう定義すればよいでしょうか。名前をとってみても、都道府県(prefecture)・州(State)・地域圏(région)・省・道などなど国さまざまです。何か都合のいい定義がほしくなるところです。</p>
 <h3 class="uk-heading-bullet"><span>ISO 3166</span></h3><p>そんな都合の良い国際規格がちゃんとありました。<a href="https://en.wikipedia.org/wiki/ISO_3166">ISO 3166</a>です。ISO 3166-1は国のコード、ISO 3166-2はその下の地域のコードを定義したものです。</p>
-<p>たとえば、ISO 3166-1 alpha-2(アルファベット2文字のコード)では、日本はJP、アメリカはUSと定義されています。そして、<a href="https://en.wikipedia.org/wiki/ISO_3166-2:JP">ISO 3166-2:JP</a>は、日本のその下位の地域、すなわち都道府県が定義されており、茨城県はJP-08、香川県はJP-37のようなコードが与えられています(この数字は、全国地方公共団体コードが使われていますね)。アメリカの<a href="https://en.wikipedia.org/wiki/ISO_3166-2:US">ISO 3166-2:US</a>も、カリフォルニア州はUS-CA、アーカンソー州はUS-ARとそのままで定義されています。</p>
+<p>たとえば、ISO 3166-1 alpha-2(アルファベット2文字のコード)では、日本はJP、アメリカはUSと定義されています。そして、<a href="https://en.wikipedia.org/wiki/ISO_3166-2:JP">ISO 3166-2:JP</a>は、日本のその下位の地域、すなわち都道府県が定義されており、茨城県は<code>JP-08</code>、香川県は<code>JP-37</code>のようなコードが与えられています(この数字は、全国地方公共団体コードが使われていますね)。アメリカの<a href="https://en.wikipedia.org/wiki/ISO_3166-2:US">ISO 3166-2:US</a>も、カリフォルニア州は<code>US-CA</code>、アーカンソー州は<code>US-AR</code>とそのままで定義されています。</p>
 <p>ということで、このコードを使うことで、グローバルな経県値を定義することにします。</p>
 <h2 class="uk-heading-line"><span>ExpWorldの実装</span></h2><p>ということで、<a href="/apps/expworld/">作ってみました</a>。<a href="https://github.com/nikorisoft/expworld/">ソースコードはこちら</a>。国のテーブルの名前をクリックすると、各国の地域ごとに経験値を記録することができます。</p>
 <p>このサイト(GitHub Pages)で運用するため、静的なコンテンツしか置くことができませんので、バックエンドにはAPIサーバーなどを置かず、ブラウザだけで動くようになっています（そのためデータの保存は、ブラウザのLocal Storageへの保存、もしくはダウンロードすることとなります）。</p>
@@ -37,8 +37,8 @@
 <li>地図ライブラリ: <a href="https://leafletjs.com/">Leaflet</a></li>
 <li>CSSライブラリ: <a href="https://getuikit.com/">UIKit</a></li>
 </ul>
-<p>地図については、<a href="./18.html">少し前に</a>使ったので、その続きという感じです。</p>
-<h3 class="uk-heading-bullet"><span>使ったデータ</span></h3><p>ですが、今回の問題は(というよりいつも?)表示するデータです。</p>
+<p>地図ライブラリについては、<a href="./18.html">少し前に</a>使ったのでその続きという感じです。</p>
+<h3 class="uk-heading-bullet"><span>使ったデータ</span></h3><p>ですが、今回の問題は(というよりいつも?)表示するべきデータです。</p>
 <p>必要なのは、</p>
 <ul>
 <li>ISO 3166の情報 (特にISO 3166-2)</li>
@@ -46,12 +46,12 @@
 </ul>
 <p>の二つです。</p>
 <p>ISO 3166-2は国ごとに定義されているので、かなり膨大な量になります。ISO 3166-1だけなら頑張れば手入力で作ることができると思いますが、ISO 3166-2のほうはかなりつらいです。</p>
-<p>探したところそれぞれ、</p>
+<p>探したところ、それぞれ</p>
 <ul>
 <li><a href="https://github.com/esosedi/3166">iso3166-2-db</a> (<a href="https://www.npmjs.com/package/iso3166-2-db">npm</a>)</li>
 <li><a href="https://www.volkerkrause.eu/2021/02/13/osm-country-subdivision-boundary-polygons.html">ISO 3166-1/2 Boundary Polygons</a> (<a href="https://invent.kde.org/vkrause/iso3166-boundary-builder">Builder</a>)</li>
 </ul>
-<p>が見つかったので、これを用いることにしました。</p>
+<p>が見つかったので、これらを用いることにしました。</p>
 <p>後者は<a href="https://www.openstreetmap.org/">OpenStreetMap</a>のデータ(<a href="https://planet.openstreetmap.org/">planet.osm</a>)から変換して作られたもののようです。確かにOpenStreetMapはISO 3166-2などの行政区画情報も入っているので、うまく引き出せば使えそうなのですが、結局巨大なDBからがんばって取ってくるしかないようなので、地図といて以外ではなかなか使うのが難しいデータですね・・・。</p>
 <p>なお、これだけだとやはりデータが巨大になってしまうので、<a href="https://github.com/mbloch/mapshaper">mapshaper</a>を用いて単純化しています。</p>
 <h2 class="uk-heading-line"><span>そのほか</span></h2><h3 class="uk-heading-bullet"><span>Future Work</span></h3><ul>
@@ -75,20 +75,21 @@
 </ul>
 </li>
 <li>経県値のカスタマイズ<ul>
-<li>いまは決められた6段階で固定になっていますが、人によってはカスタマイズしたくなるかもしれません。たとえば、その地域の主たる都市で経験した場合にはポイント2倍とか(つまり、日本だと都道府県庁所在地で宿泊した場合には2倍とか)、もう少し段階を細分化したいとかいろいろあるでしょう。そういったカスタマイズ機能が必要になるかもしれません。他方、人と比較するのが難しくなりますが（現状もしづらいのですけど）</li>
+<li>いまは決められた6段階で固定になっていますが、人によってはカスタマイズしたくなるかもしれません。たとえば、その地域の主たる都市で経験した場合にはポイント2倍とか(つまり、日本だと都道府県庁所在地で宿泊した場合には2倍とか)、もう少し段階を細分化したいとかいろいろあるでしょう。そういったカスタマイズ機能が必要になるかもしれません。他方、人の値と比較するのが難しくなりますが（現状もしづらいのですけど）</li>
 </ul>
 </li>
 <li>データのサーバー保存<ul>
-<li>サーバー側でデータを保存できるようにするというのも、もしかしたら必要かもしれません。とりあえずは、今のところは逆に保存しない（できない）ことで安心してお使いいただける面もあるかもしれません。</li>
+<li>サーバー側でデータを保存できるようにするというのも、もしかしたら必要かもしれません。ランキングとか作れるようになりますしね。とりあえずは、逆に保存しない（できない）ことで安心してお使いいただけるということにしておきましょう。</li>
 </ul>
 </li>
 </ul>
 <h3 class="uk-heading-bullet"><span>余談</span></h3><p>なお、<code>iso3166-2-db</code>では、<code>dispute/UN</code> ディレクトリのデータを使用しています。ええ。単純に国や地域の正確な網羅的なデータがほしいと言ってしまうのですが、「正しい」一つのデータというのは存在しえないのが世の中の難しいところですね。国内であっても、富士山山頂付近の静岡県と山梨県の県境みたいな問題はありますからね。</p>
-<p>今回は、経験値の数値化と単なる可視化をしたかっただけですので、元にしたデータをそのまま利用しておりますので、それ以外の意図はまったくありません。なので、たとえば北海道や島根県の領域をじっくり見て何かの意図を感じるのは完全な間違いです。</p>
+<p>今回は、経験値の数値化と単なる可視化をしたかっただけですので、元にしたデータをそのまま利用しております。それ以外の意図はまったくありません。ですので、たとえば北海道や島根県の領域をじっくり見て何かの意図を感じるのは完全な間違いです。</p>
+<h4 class=""><span>もっと余談</span></h4><p>タイトルは何も思いつかなかったので、「世界をわが手に」(The Trouble with Bubbles)によります。SFの原作ではなく、ぱにぽにだっしゅ!第3話の次回予告（「世界は我が手に」）からです。響きが良いからというだけで他意はありません。</p>
 <h2 class="uk-heading-line"><span>まとめ</span></h2><p>ということで、グローバルな経県値を管理するためのWebサイトを作ってみました。やっぱり、データに多少問題があっても可視化されるとうれしいものがありますし、作るのもやる気がでてきます。可視化できるシステムは、やっぱりいいなという気持ちになります。行ったことのない国でも、第2レベルの行政区画がどうなってるかを見るだけでもなかなかおもしろいと感じますしね。</p>
 <p>まあその一方で可視化するためのデータを収集して整備するところが大変だったりするので、世の中楽なことはないというところですかね。</p>
-<p>ちなみに、自分の国単位の経験値を入力したところ、たったの83点でした。世界は広いですね。</p>
-<!--- nikory-metadata: { "image": "22_tb.jpg", "description": "グローバルな経験値を入力するサイトを作ってみる" } -->
+<p>ちなみに、自分の国単位の経県値を入力したところ、たったの83点でした。世界は広いですね。</p>
+<!--- nikory-metadata: { "image": "22_tb.jpg", "description": "グローバルな経県値を入力するサイトを作ってみる" } -->
 </div></p></article></div></div><!----><footer class="uk-margin-auto-top"><p class="uk-text-small uk-text-muted uk-text-center">Copyright © 2018-2021 nikorisoft - Ver.0.3.4</p></footer></div></div>
     </body>
 </html>
