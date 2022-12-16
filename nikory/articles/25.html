@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ja" prefix="og: https://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta name="google-site-verification" content="WspgQxVxWdcH8Uv1Dz0IwtlYh30gYBsa3zHrGgxB6zE">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:title" content="旅行と移動と出張と - nikory">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="https://nikori.jp/nikory/articles/25.html">
+        <meta property="og:image" content="https://nikori.jp/blog/resources/tbs/thumbnail-25.jpg">
+        <meta property="og:description" content="旅行記録システムの設計と実装の解説">
+
+        <link rel="stylesheet" href="/ext/uikit/css/uikit.min.css">
+        <link rel="stylesheet" href="/nikory/nikory.css">
+        <link rel="stylesheet" href="/nikory/a11y-light.css">
+        <script src="/ext/uikit/js/uikit.min.js"></script>
+        <script src="/ext/uikit/js/uikit-icons.min.js"></script>
+        <title>旅行と移動と出張と - nikory</title>
+    </head>
+    <body>
+        <div class="uk-section-small"><div class="uk-container uk-container-large"><nav class="uk-navbar-container uk-margin-bottom"><div class="uk-navbar-left"><a class="uk-navbar-item uk-logo" href="/">nikori.jp</a><ul class="uk-navbar-nav"><li><a href="/nikory/articles/25.html">Latest Article</a></li><li><a href="/nikory/index.html">Article Index</a></li></ul></div></nav><div class="article"><div class="article-body"><ul class="uk-pagination"><li><a href="./24.html"><span uk-pagination-previous></span><span class="uk-margin-small-left">Previous</span></a></li><!----></ul><article class="uk-article" id="article"><h1 class="uk-article-title">旅行と移動と出張と</h1><p class="uk-article-meta"><span>Posted on 12/17/2022, 12:00:00 AM</span> by <a href="https://github.com/nikorisoft">nikorisoft</a><div class="contents"><p>このエントリは、<a href="https://adventar.org/calendars/7900">平穏な生活を送りたいぴょこりんクラスタ Advent Calendar 2022</a>のために書かれたものです。3つ目です。</p>
+<p>まずは公理として、人は電車に乗ったり飛行機に乗ったらその記録をつけて残しておきたいもの、というものがあります。その方法は、人それぞれではありますが、やはりこの現代においては電子的な形で残したいものです。</p>
+<p>そんなわけで今回は、今年自分で作った旅行記録システムの話です。自分用のシステムなのであまり得るものはないかもしれませんが、何かの参考になればと思っております。</p>
+<h2 class="uk-heading-line"><span>旧システム</span></h2><p>さて、記録を残すのが公理というのであれば、2022年の今になってそんなシステムを作るのはおかしいのではないかという意見もあるでしょう。
+それは実にその通りでして、今まで下記のようなシステムを作成、運用してきました。</p>
+<h3 class="uk-heading-bullet"><span>第1世代: Train Record Online (2012年～2016年)</span></h3><p>これが最初のシステム化です。一番初期はメモ帳、次にテキストファイルという変遷を経て、ようやくWebシステムということになりました。</p>
+<p>このシステムの機能は、以下のようなものです。</p>
+<ul>
+<li>日本の鉄道に乗った記録を残すことができる<ul>
+<li>下記の情報を保存できる<ul>
+<li>車両番号、乗車駅・降車駅、乗車プラットフォーム番号・後者プラットフォーム番号、発車日時・到着日時、列車種別、行先、列車番号、編成中の車両数、路線名、備考</li>
+<li>列車の時刻表上のデータ</li>
+</ul>
+</li>
+<li>保存したデータの編集・削除・検索（駅名のみ）</li>
+</ul>
+</li>
+</ul>
+<p>まあ実にシンプルなものですが、これまでメモ帳あるいはテキストファイルに記録していた事項をベースにしたものです。</p>
+<p>電子化したことによるメリットは、当然ながら、物理的な紙あるいはテキストファイルと違って、一つのところに保存できるので情報が散逸する可能性が少ないことです（もちろんサーバーが死んでしまうと一発アウトですが）。</p>
+<p>またさらなるメリットとしては、外部から時刻表のデータをインポートして残すことができることです。どうやってインポートするのかについては、ソースが公開できない理由とともにお察しください。これによって、どんな列車に乗ったのかについて、単なる乗車区間以上の情報を残すことができます。もちろん、行先などいろいろな情報の入力を省力化することもできました。</p>
+<p>ちなみにUIは下記のようなものです。(Firefoxの開発者モードで表示)</p>
+<p><figure><img src="../../blog/resources/images/25-ss1.png" alt="第1世代のスクリーンショット"><figcaption>第1世代のスクリーンショット</figcaption></figure></p>
+<p>当時開発していたころには、確か今は亡きWindows Mobile機(WS011SHとか)での利用を想定していたため、PCのfirefoxでみるとちょっと狭い感じではあります。デザインセンスはないというのももちろんありますが。</p>
+<p>実装では、下記のようなものを使っていました。いろいろと懐かしいですね。</p>
+<table class="uk-table uk-table-divider uk-table-small"><thead><tr>
+<th>項目</th>
+<th>利用技術</th>
+</tr>
+</thead><tbody><tr>
+<td>バックエンド</td>
+<td>PHP + Smarty</td>
+</tr>
+<tr>
+<td>DB</td>
+<td>Sqlite 3</td>
+</tr>
+</tbody></table><h3 class="uk-heading-bullet"><span>第2世代: Integrated Transportation Record Online (2016年～2022年)</span></h3><p>さて、前システムでしばらく満足していたのですが、2016年のころから<a href="./24.html">前回の記事でも扱った</a>修行を行うなど、飛行機の利用が増えてきました。このときまでは、飛行機については別のところ(Wiki)に保存していたのですが、公共交通機関の利用記録ということなので、同じシステム上にしてしまうのがいいのではないかということで、新たにシステムを作成するようにしました。何が&quot;integrated&quot;なのかというと、鉄道だけでなく、飛行機もついでにバスも扱えるようにしたところなのです。</p>
+<p>このシステムの機能は、以下のようなものです。</p>
+<ul>
+<li>鉄道・飛行機・バスに乗った記録を残すことができる<ul>
+<li>下記の情報を保存できる<ul>
+<li>鉄道: 車両番号、号車番号・座席番号、座席種類、乗車駅・降車駅（ダイヤ）、発車日時・到着日時（ダイヤ）、列車種別・行先（ダイヤ）、列車番号、編成中の車両数、運行者、路線名、発車日時・到着日時（実際）、列車種別・行先（実際）、備考、（日本の場合）時刻表のデータ</li>
+<li>バス: 車両番号、登録番号、編成中の車両数、座席種類、号車番号・座席番号、乗車バス停・降車バス停（ダイヤ）、発車日時・到着日時（ダイヤ）、バス種別・行先（ダイヤ）、バス番号、運行者、路線名、発車日時・到着日時（実際）、バス種別・行先（実際）、備考</li>
+<li>飛行機: 機体モデル、登録番号、座席種類、座席番号、出発空港・到着空港（ダイヤ）、出発日時・到着日時（ダイヤ）、フライト番号、実際の運航会社のフライト番号、出発空港・到着空港（実際）、出発日時・到着日時（実際）、出発ターミナル・ゲート・スポット・滑走路、到着ターミナル・ゲート・スポット・滑走路、備考</li>
+</ul>
+</li>
+<li>各日時には、国名とタイムゾーンを指定できる</li>
+<li>保存したデータの編集・削除・検索（出発・到着地名と車両番号・登録番号）</li>
+</ul>
+</li>
+</ul>
+<p>機能的な改善点としては、まず一番は飛行機・バスへの対応です。それぞれ入力できる項目も若干異なっています。第二に、出発地・到着地とその日時について、ダイヤ（計画）上のそれらと実際のそれらを分けて記録することができるというものです。これによって、自動的にそのときの遅れ・ダイバートなどなどについて記録することができます。第三は、タイムゾーンに対する対応です。特に飛行機に対応したことによって国をまたがる移動、日本国外の記録をする必要がでてきますので、出発地および到着地それぞれについて国名およびタイムゾーンを指定することができるようになっています。</p>
+<p>こちらのUIは基本的に、第1世代を踏襲しているので、下記のような形です。絵文字を採用したのが、4年間の進化でしょうか。</p>
+<p><figure><img src="../../blog/resources/images/25-ss2.png" alt="第2世代のスクリーンショット"><figcaption>第2世代のスクリーンショット</figcaption></figure></p>
+<p>実装としては、次のようなものを使っていました。</p>
+<table class="uk-table uk-table-divider uk-table-small"><thead><tr>
+<th>項目</th>
+<th>利用技術</th>
+</tr>
+</thead><tbody><tr>
+<td>バックエンド</td>
+<td>Python 3 + Flask</td>
+</tr>
+<tr>
+<td>DB</td>
+<td>Sqlite 3</td>
+</tr>
+</tbody></table><p>ちなみに、DBMSとしては同じくsqlite3を使っていますが、DBを新しく作り直したため、第1世代のデータはすべてインポートされています。</p>
+<h2 class="uk-heading-line"><span>システムのもたらすメリット</span></h2><p>さて、今回のシステムの話に入る前に、こういった記録をつけたりシステムを作っておくと何がうれしいのかをもう少し書いていきましょう。</p>
+<p>まずは、<a href="./24.html">前回のエントリで書いた</a>搭乗回数の遷移といったものが簡単に出せるということです。さすがにちょうどそんな統計データを出すようなUIは作っていませんでしたが、下記のようなSQL文で簡単に出すことができました。（ちなみに2016年以降しかないのは、搭乗記録が電子化されているのが第2世代の運用開始以降、すなわち2016年以降だからです）</p>
+<pre><code><span class="hljs-keyword">SELECT</span> substr(number, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>) <span class="hljs-keyword">AS</span> carrier, <span class="hljs-built_in">COUNT</span>(<span class="hljs-operator">*</span>) <span class="hljs-keyword">FROM</span> record <span class="hljs-keyword">WHERE</span> transport_type <span class="hljs-operator">=</span> <span class="hljs-number">3</span> <span class="hljs-keyword">AND</span> substr(dep_datetime, <span class="hljs-number">1</span>, <span class="hljs-number">4</span>) <span class="hljs-operator">=</span> &quot;2016&quot; <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> carrier;</code></pre><p>あるいは、自分が使った回数の多い空港(2016年～2022年12月)はどこだろう？みたいな表も簡単に作ることができます。ちなみに、結果(10回以上)は、以下のようになりました。</p>
+<table class="uk-table uk-table-divider uk-table-small"><thead><tr>
+<th>空港名</th>
+<th>発着回数</th>
+</tr>
+</thead><tbody><tr>
+<td>東京国際空港 (HND)</td>
+<td>79回</td>
+</tr>
+<tr>
+<td>サンノゼ国際空港 (SJC)</td>
+<td>55回</td>
+</tr>
+<tr>
+<td>那覇空港 (OKA)</td>
+<td>53回</td>
+</tr>
+<tr>
+<td>成田国際空港 (NRT)</td>
+<td>52回</td>
+</tr>
+<tr>
+<td>ロサンゼルス国際空港 (LAX)</td>
+<td>19回</td>
+</tr>
+<tr>
+<td>サンフランシスコ国際空港 (SFO)</td>
+<td>18回</td>
+</tr>
+<tr>
+<td>石垣空港 (ISG)</td>
+<td>16回</td>
+</tr>
+<tr>
+<td>ヒースロー空港 (LHR)</td>
+<td>13回</td>
+</tr>
+<tr>
+<td>ヘルシンキ空港 (HEL)</td>
+<td>10回</td>
+</tr>
+</tbody></table><p>さすがに住所地近くの空港は強いですね。まあ那覇空港が3位に入っているのは何かの間違いだと思いたいのですが。</p>
+<p>もう一つの例は、自明ではありますが、旅行ネタでエントリを書く際の参考にできることです。<a href="./23.html">日本帰国時の搭乗情報</a>などがいい例でしょう。再掲すると以下のような感じです。</p>
+<table class="uk-table uk-table-divider uk-table-small"><thead><tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead><tbody><tr>
+<td>便名</td>
+<td>NH 7</td>
+</tr>
+<tr>
+<td>出発地</td>
+<td>サンフランシスコ国際空港 (アメリカ) ゲートG10</td>
+</tr>
+<tr>
+<td>到着地</td>
+<td>成田国際空港 (日本) ゲート57A</td>
+</tr>
+<tr>
+<td>予定</td>
+<td>12:15 ⭢ 15:25 +1d</td>
+</tr>
+<tr>
+<td>実績</td>
+<td>12:21 ⭢ 14:46 +1d (10h27m)</td>
+</tr>
+<tr>
+<td>機種・機体番号</td>
+<td>B777-300ER (JA787A)</td>
+</tr>
+</tbody></table><p>第2世代のところで述べたように、これに加えて使用した滑走路情報(SFOは28L, NRTは34L)なども入っています。</p>
+<h2 class="uk-heading-line"><span>動機</span></h2><p>さて、今回のエントリは、これらをさらに改良したシステム、つまり第3世代を作ることです。第2世代を作ってしばらく運用した後で出てきた追加要件は、下記のようなものです。</p>
+<ul>
+<li>(RQ1) ほかの公共交通機関として、乗船（フェリーなど）も記録したい</li>
+<li>(RQ2) 飛行機の記録として、獲得したポイント(<a href="./24.html">前回の記事</a>でも記述したFOPとかPPなど)を記録したい。また、座席の運賃クラスも記録したい</li>
+<li>(RQ3) 旅行の事前計画もシステム化したい</li>
+<li>(RQ4) 旅行のログとして、公共交通機関以外にも訪問した場所、宿泊地などについても記録したい</li>
+<li>(RQ5) ログとコメントから、公開できる旅行レポートを自動生成したい</li>
+<li>(RQ6) 写真やGPSログなどもまとめて管理したい</li>
+</ul>
+<p>とこのように、要求項目がどんどん増えてきました。すべてに一気に対応するのは困難なので、まずは最初の4点について新システムで対応していこうと思います。</p>
+<p>なお、新機能とは別に、</p>
+<ul>
+<li>(RQ7) 第2世代のデータをインポートできること</li>
+</ul>
+<p>も忘れてはいけません。システムを変えるたびに断絶が発生してしまったら意味がないですからね。</p>
+<p>ちなみに、どうでもいいことですが、新システムの名前は、&quot;Integrated Travel Record Online Extended&quot;です。世代を追うごとにTの意味が拡大している(Train -&gt; Transportation -&gt; Travel)ことがわかるでしょう。</p>
+<h2 class="uk-heading-line"><span>データ項目</span></h2><p>いろいろと機能が増えますので、それぞれどんなデータ項目を残すべきかを考えます。</p>
+<ul>
+<li>計画に関するもの (RQ3, RQ4に関係)<ul>
+<li>旅行計画<ul>
+<li>旅行名、旅行期間</li>
+</ul>
+</li>
+<li>移動計画<ul>
+<li>移動手段種類、出発地、到着地、出発予定時刻、到着予定時刻、移動手段名、移動手段番号、費用</li>
+</ul>
+</li>
+<li>宿泊計画<ul>
+<li>宿泊期間、宿泊地名、住所、参照情報(URLなど)、費用</li>
+</ul>
+</li>
+<li>訪問地計画<ul>
+<li>訪問地名、出発予定時刻、到着予定時刻、住所、参照情報、費用</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>記録に関するもの<ul>
+<li>乗船記録 (RQ1に関係)<ul>
+<li>船のモデル(?)、船体番号、船体登録番号、座席種類、座席番号、出港地・到着地（計画）、出港日時・到着日時（計画）、船便番号、運航者、路線名、備考</li>
+</ul>
+</li>
+<li>飛行機記録 (追加分) (RQ2に関係)<ul>
+<li>運賃クラス、航空会社プログラム種類、獲得ポイント数</li>
+</ul>
+</li>
+<li>宿泊記録 (RQ4に関係)<ul>
+<li>(宿泊計画と同じ)</li>
+</ul>
+</li>
+<li>訪問地記録 (RQ4に関係)<ul>
+<li>(訪問地計画と同じ)</li>
+</ul>
+</li>
+<li>メモ (RQ4に関係)<ul>
+<li>時刻、コメント</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>という感じになるでしょうか。</p>
+<h2 class="uk-heading-line"><span>スキーマ</span></h2><p>まずはこれらを満たすためのデータ構造を考えます。これまでのシステムがリレーショナルデータベース(sqlite) を使っていたので、今回もリレーショナルデータベースを使うことにします。</p>
+<p>第2世代のデータを引き継ぐことを考え、交通関係の記録については、第2世代の形を残しつつ、周りに新たに加わったデータ構造を付け加える感じとなりました。</p>
+<p>まずは新機能となる、計画に関するものは記録とは独立したデータ構造としました。「旅行予定」という上位のテーブルに対して、複数の「移動計画」「宿泊計画」「訪問計画」がぶら下がる形です。ER図で書くと、以下のような感じです。</p>
+<p><figure><img src="../../blog/resources/images/25-1.svg" alt="ER図 - その1"><figcaption>ER図 - その1</figcaption></figure></p>
+<p>そのまんまですね。</p>
+<p>次に、記録に関するものは、特に上位のものを設けないこととせず、移動・宿泊・訪問・メモの4種類のログがそれぞれ独立して存在する形としました。これは、計画の存在しないログが存在すること（通勤など日常生活や突発的な移動など）、一つのログは後々複数の旅行レポート（これはRQ5に関連し、今回の実装ではスコープ外）に結びつく可能性があるからです。後者の例としては、前回の修行エントリで言及した搭乗記録は、「JGP修行2022」というレポートとしても、それぞれの旅行、例えば「奄美大島旅行」というレポートとしても参照されるということになります。</p>
+<p>そんなわけで、移動ログ(<code>TransportationLog</code>テーブル)は既存（第2世代）のスキーマに必要な情報を拡張した形とし、宿泊ログ・訪問ログは計画のそれと特に情報が増えないのでほぼそのまま、テキストログは非常にシンプルなテーブルとなりました。</p>
+<p><figure><img src="../../blog/resources/images/25-2.svg" alt="ER図 - その2"><figcaption>ER図 - その2</figcaption></figure></p>
+<p>このような形です。ただし移動ログについては、カラムが多いのでだいぶ省略してあります。
+で、前述のとおり、ログは独立したものとしたので、リレーションはここには何もありません。</p>
+<h3 class="uk-heading-bullet"><span>タイムゾーンの表現</span></h3><p>ところで、第2世代以来悩んでいるのがタイムゾーンの表現方法です。第2世代では、次のような二つの要素で表していました。</p>
+<table class="uk-table uk-table-divider uk-table-small"><thead><tr>
+<th>カラム名</th>
+<th>データ</th>
+</tr>
+</thead><tbody><tr>
+<td>時刻 (ISO 8601形式)</td>
+<td><code>2022-12-25T00:00:00+0900</code></td>
+</tr>
+<tr>
+<td>国コード</td>
+<td><code>JP</code></td>
+</tr>
+</tbody></table><p>これからロジックで、オフセットは+09:00 (+540分)、国コードが日本であるから、タイムゾーンはJST、といった判別をしていました。</p>
+<p>今回は、次のような4要素で表現することとしました。</p>
+<table class="uk-table uk-table-divider uk-table-small"><thead><tr>
+<th>カラム名</th>
+<th>データ</th>
+</tr>
+</thead><tbody><tr>
+<td>時刻 (ISO 8601形式, UTC)</td>
+<td><code>2022-12-24T15:00:00Z</code></td>
+</tr>
+<tr>
+<td>国コード</td>
+<td><code>JP</code></td>
+</tr>
+<tr>
+<td>タイムゾーン名</td>
+<td><code>Asia/Tokyo</code></td>
+</tr>
+<tr>
+<td>オフセット</td>
+<td><code>+540</code></td>
+</tr>
+</tbody></table><p>これは主に、後述するようにDBMSにPostgreSQLを使うことにして、時刻を文字列ではなく<code>DateTime</code>で扱うようにしたため、タイムゾーン情報が保持されないことによるものです（カラムのオプションに<code>with time zone</code>を加えると保持されますが、SQLの標準ではないので避けることとしました）。</p>
+<h2 class="uk-heading-line"><span>実装</span></h2><p>今回は、以下のようなライブラリや言語などを使いました。</p>
+<table class="uk-table uk-table-divider uk-table-small"><thead><tr>
+<th>項目</th>
+<th>利用技術</th>
+</tr>
+</thead><tbody><tr>
+<td>バックエンド言語</td>
+<td>TypeScript (Node.js)</td>
+</tr>
+<tr>
+<td>Webフレームワーク</td>
+<td><a href="https://www.fastify.io/">Fastify</a></td>
+</tr>
+<tr>
+<td>ORM</td>
+<td><a href="https://www.prisma.io/">Prisma</a></td>
+</tr>
+<tr>
+<td>DBMS</td>
+<td>PostgreSQL</td>
+</tr>
+<tr>
+<td>フロントエンド言語</td>
+<td>Typescript</td>
+</tr>
+<tr>
+<td>フロントエンドフレームワーク</td>
+<td><a href="https://vuejs.org/">Vue 3</a></td>
+</tr>
+<tr>
+<td>ビルドツール</td>
+<td><a href="https://vitejs.dev/">Vite</a></td>
+</tr>
+<tr>
+<td>UIライブラリ</td>
+<td><a href="https://www.primefaces.org/primevue/">PrimeVue</a></td>
+</tr>
+</tbody></table><p>第1世代はPHP、第2世代はPython、第3世代はTypeScriptということで、当たり前ですが自分が主に使っている言語の変遷がそのまま見てとれます。</p>
+<h2 class="uk-heading-line"><span>できたもの</span></h2><p>こんな感じです。旅行計画は、下記のように表示されます。</p>
+<p><figure><img src="../../blog/resources/images/25-ss3.png" alt="第3世代のスクリーンショット (旅行計画)"><figcaption>第3世代のスクリーンショット (旅行計画)</figcaption></figure></p>
+<p>ここでは、入力された移動計画と宿泊計画が表示されています。</p>
+<p>また、移動の記録は、下記のような感じです（飛行機搭乗記録入力画面）。</p>
+<p><figure><img src="../../blog/resources/images/25-ss4.png" alt="第3世代のスクリーンショット (搭乗記録入力画面)"><figcaption>第3世代のスクリーンショット (搭乗記録入力画面)</figcaption></figure></p>
+<p>という感じです。という以外はいいようがないですね・・・・</p>
+<h2 class="uk-heading-line"><span>まとめ</span></h2><p>このエントリでは、旅行の計画・記録システムとして作成したWebシステムの設計などについて述べてきました。実装については、特殊なこともないので、あまりおもしろみのある内容ではないですが、一つの特殊な用途に対するシステムの例として何かの参考になれば幸いです。</p>
+<p>なお、このシステムの実運用についてですが、旅行計画については、今年の10月から運用を開始しました。旅行ログについては、特に第2世代でカバーしてきたところは移行がまだできていません。これは2023年1月をめどに行いたいと思っております。</p>
+<p>電子化することによるメリットのところでも述べましたが、統計処理すればなにかおもしろい結果が得られるのではないかと、つい期待してしまいます。（無駄に膨れ上がったデータ処理に対するありがちな期待）
+特に鉄道乗車記録は10年くらいのデータがあるわけで、なにか出ないですかねー。</p>
+<h3 class="uk-heading-bullet"><span>Future Work</span></h3><ul>
+<li>時刻表サポートの拡充<ul>
+<li>オープンデータ、GTFSで提供されているものが、国内そして<a href="https://transitfeeds.com/feeds">国際的にもいくつかある</a>のでこれをサポートしたいところです。そうすると例えばBARTの時刻表もこのシステム上で参照することができます。</li>
+</ul>
+</li>
+<li>旅行レポートの作成<ul>
+<li>これが一番やりたかったことで、今年のアドベントカレンダーのネタにしたかったんですが、はて間に合うんでしょうかねえ。このエントリの公開当初はリンク切れだと思いますが、<a href="./27.html">この二つ後の記事</a>によって間に合ったかどうかがわかることでしょう。</li>
+</ul>
+</li>
+<li>GPSログとの連携<ul>
+<li>スマートウォッチやGPSロガーによってとったログも結構たくさんあるので、うまくこれを関係させたいところです。来年の開発はこれがメインテーマになりそうです。</li>
+</ul>
+</li>
+</ul>
+<!--- nikory-metadata: { "image": "thumbnail-25.jpg", "description": "旅行記録システムの設計と実装の解説", "timestamp": "2022-12-17T00:00:00+09:00" } -->
+</div></p></article></div></div><!----><footer class="uk-margin-auto-top"><p class="uk-text-small uk-text-muted uk-text-center">Copyright © 2018-2022 <a href="https://github.com/nikorisoft/">nikorisoft</a> - Ver.0.3.4</p></footer></div></div>
+    </body>
+</html>
