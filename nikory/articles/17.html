@@ -68,7 +68,7 @@
         <span class="hljs-keyword">let</span> <span class="hljs-variable">mul</span> = <span class="hljs-keyword">if</span> from.area == AreaCode::Japan &amp;&amp; from.area == to.area {
             <span class="hljs-comment">// Japan domestic</span>
             <span class="hljs-number">2.0</span>
-        } <span class="hljs-keyword">else</span> <span class="hljs-title function_ invoke__">if</span> (from.area == AreaCode::Japan &amp;&amp; (to.area == AreaCode::Asia || to.area == AreaCode::Oceania)) ||
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (from.area == AreaCode::Japan &amp;&amp; (to.area == AreaCode::Asia || to.area == AreaCode::Oceania)) ||
             (to.area == AreaCode::Japan &amp;&amp; (from.area == AreaCode::Asia || from.area == AreaCode::Oceania)) {
             <span class="hljs-keyword">if</span> from.country == <span class="hljs-string">&quot;RU&quot;</span> || to.country == <span class="hljs-string">&quot;RU&quot;</span> {
                 <span class="hljs-comment">// Russia (East of Ural) is considered to be in Europe</span>
@@ -635,6 +635,6 @@ oneworld Explorerのルール違反はありません。ですが、半数の路
 <p>他方、アジア～ヨーロッパ間で、SIN-LHR路線をつかうという発想がなかったため(考えれば当たり前なのですが)、今後のルート作成に参考にしたいと思います。こういった一つのルートを対象にすれば、路線が実在するかどうかを確かめることができるので、実用性があるかもしれませんね。</p>
 <p>いずれにしても、現在の世界情勢においてはこういったチケットを使うことはほぼ不可能ですし、さらに航空会社の財政状態が悪化したあと、このようなチケットが残っているかどうかも不透明です。これが未来に生かされるのか、ただの鎮魂歌になってしまうのか、前者であることを祈らざるを得ません。</p>
 <h3 class="uk-heading-bullet"><span>ソース</span></h3><p>READMEも何もなくて微妙ですが、いちおう<a href="https://github.com/nikorisoft/owe-explorer">ソース</a>を公開しておきます。</p>
-</div></p></article></div></div><!----><footer class="uk-margin-auto-top"><p class="uk-text-small uk-text-muted uk-text-center">Copyright © 2018-2022 <a href="https://github.com/nikorisoft/">nikorisoft</a> - Ver.0.3.4</p></footer></div></div>
+</div></p></article></div></div><!----><footer class="uk-margin-auto-top"><p class="uk-text-small uk-text-muted uk-text-center">Copyright © 2018-2023 <a href="https://github.com/nikorisoft/">nikorisoft</a> - Ver.0.4.0</p></footer></div></div>
     </body>
 </html>
