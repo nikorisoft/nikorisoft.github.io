@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <style>
+            #circle {
+                position: relative;
+                width: 60px;
+                height: 60px;
+                box-sizing: border-box;
+                background-color: rgba(255, 255, 255, 0.5);
+                border: solid gray;
+                border-radius: 50%;
+                animation: 2s ease-in-out 0s infinite alternate circle_move;
+            }
+
+            @keyframes circle_move {
+                from {
+                    left: 0px;
+                    background-color: rgba(255, 255, 255, 0.2);
+                }
+                to {
+                    left: 1860px;
+                    background-color: rgba(255, 255, 255, 0.7);
+                }
+            }
+        </style>
+        <script src="/lib/default.js" lang="text/javascript"></script>
+    </head>
+    <body>
+        <div id="output" style="top: 0; left: 0; position: absolute; width: 1920px; height: 1080px; background-color: chocolate;">
+            <div id="circle" class="target"></div>
+        </div>
+        <script lang="text/javascript">
+            init();
+        </script>
+    </body>
+</html>

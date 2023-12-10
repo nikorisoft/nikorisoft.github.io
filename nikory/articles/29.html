@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja" prefix="og: https://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta name="google-site-verification" content="WspgQxVxWdcH8Uv1Dz0IwtlYh30gYBsa3zHrGgxB6zE">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:title" content="動画作りのためのプレリュード - nikory">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="https://nikori.jp/nikory/articles/29.html">
+        <meta property="og:image" content="https://nikori.jp/blog/resources/tbs/thumbnail-29.png">
+        <meta property="og:description" content="ブラウザをレンダリングエンジンとしたコードによる動画づくりを実現するための車輪の再発明の入り口">
+
+        <link rel="stylesheet" href="/ext/uikit/css/uikit.min.css">
+        <link rel="stylesheet" href="/nikory/nikory.css">
+        <link rel="stylesheet" href="/nikory/a11y-light.css">
+        <link rel="stylesheet" href="/nikory/29.css">
+        <script src="/ext/uikit/js/uikit.min.js"></script>
+        <script src="/ext/uikit/js/uikit-icons.min.js"></script>
+        <title>動画作りのためのプレリュード - nikory</title>
+    </head>
+    <body>
+        <div class="uk-section-small"><div class="uk-container uk-container-large"><nav class="uk-navbar-container uk-margin-bottom"><div class="uk-navbar-left"><a class="uk-navbar-item uk-logo" href="/">nikori.jp</a><ul class="uk-navbar-nav"><li><a href="/nikory/articles/29.html">Latest Article</a></li><li><a href="/nikory/index.html">Article Index</a></li></ul></div></nav><div class="article"><div class="article-body"><ul class="uk-pagination"><li><a href="./28.html"><span uk-pagination-previous></span><span class="uk-margin-small-left">Previous</span></a></li><!----></ul><article class="uk-article" id="article"><h1 class="uk-article-title">動画作りのためのプレリュード</h1><p class="uk-article-meta"><span>Posted on 12/11/2023, 12:00:00 AM</span> by <a href="https://github.com/nikorisoft">nikorisoft</a><div class="contents"><p>このエントリは、<a href="https://adventar.org/calendars/8863">サステナブルなぴょこりんクラスタ Advent Calendar 2023</a>のために書かれたものです。</p>
+<p><a href="./28.html">前回のエントリ</a>で開発目標が達成できなかったということを書きましたが、今回はもともと作りたいと思いつつ作っていなかったものをなんとか12月に作ろうとしていることを書きたいと思います。これもギリギリに書いている状態なので、ものすごく自転車操業感があります。仕事と同じような感じになってしまって、よろしくないですね。</p>
+<h2 class="uk-heading-line"><span>動機</span></h2><p>さて、今回作るツールは、動画を作るためのツールです。<a href="./26.html">こちら</a>で書いたようにGoPro HEROを昨年新しいのを買ったので、有効活用をしたいなあと思っていたことによります。まあ有効活用するには、編集して動画を作るくらいしかないわけなのですが、動画を編集するソフトといえば、マウスでカチカチしたりするイメージが大きく、ちゃんとテキストというかスクリプト的に行いたいなあというところがあります。</p>
+<p>これは、やっぱりIaC(Infrastructure as Code)とかPaC(Policy as Code)とかいわれるように、なんでもコードにするのがメンテナンス性とか再現性とか再利用性を高めるうえでも大切なんじゃないかという世の中の潮流にあっているのではないでしょうか。</p>
+<p>と、無理やりの正当化したうえで、そんなツールを作っていきたいと思います。Movie as Codeとでもいえばいいんでしょうか。</p>
+<h2 class="uk-heading-line"><span>関連研究と方針</span></h2><p>もちろん画像の各フレームを生成するプログラムを一から作れば、動画づくりはできてしまいます。しかしそれではおもしろくありませんし、とてつもない車輪の再発明になるだけです。せっかくなら世の中にあるものを使って、うまくやりたいものです。</p>
+<p>既存のものを調べてみると、たとえば、<a href="https://github.com/rezoo/movis">Movis</a>のようなものがあるようです。これは、基本的には自前でレイヤーとかもろもろのAPIを提供しているようです。</p>
+<p>しかし、世の中にはもっと手軽に使える、身近なレンダリングエンジンがあります。そう、Webブラウザです。</p>
+<p>今や世の中なんでもWebブラウザです。スマートフォンのアプリだって、ネイティブで書いてあるものもありますが、結局ブラウザのエンジンを載せてWebアプリとほぼ同じようなものを動かしているようなアプリだってあるのです。そして、アニメーションの類であっても、CSSがやたらと充実しています。</p>
+<div id="animation-demo">
+   <div id="animation-ball"></div>
+   <div id="animation-text">Hello, world</div>
+</div>
+
+<p>こんなのをcssだけで書けるわけですから、これを使わない手はありません。ということで、今回の方向性は、ブラウザをレンダリングエンジンとして利用した動画作成ツールということになります。</p>
+<p>・・・で、さらに調べると、<a href="https://creatomate.com/how-to/create-video-in-the-browser">Creatomate</a>なんてものもありました。やっぱり世の中考えることは同じなんですねえ。</p>
+<p>まあ有料のサービスっぽいので、とりあえず無視して車輪の再発明をすることにしましょう。(結局そんなオチ)</p>
+<h2 class="uk-heading-line"><span>おおまかな設計</span></h2><p><figure><img src="../../blog/resources/images/29-1.svg" alt="全体の設計概要"><figcaption>全体の設計概要</figcaption></figure></p>
+<p>もうPowerpointの図という投げやりな感じになってしまってますが(これも本当はちゃんとスクリプトで図を描けという話なのですが)、大まかな設計はこんな感じです。言語は書いていませんがサーバー側はTypeScript、ブラウザ側はここでViteとかかませるとわけがわからなくなりそうなので、JavaScriptそのままです。JavaScriptをそのまま書くのは、現代においてはかなりの蛮行と思われますが、今回の目的では複雑な処理を書くことはほとんどないでしょうから、とりあえずよしとします。</p>
+<p>ブラウザを動かすのは、<a href="https://www.selenium.dev/">Selenium</a>とか<a href="https://pptr.dev/">Puppeteer</a>が有名ですが、最近流行ってきている気がする<a href="https://playwright.dev/">Playwright</a>を使うことにしました。いざとなったらブラウザをChromiumからWebkitとかFirefoxに変えることができますしね。する予定はないですが。</p>
+<p>右上のプロジェクトとしているのが、肝心の動画のソースとなるものです。全体のメタ情報やタイムライン情報を含むyamlファイルと、実際に描画するhtmlファイルなどからなります。htmlファイルは、シーンごとなど、複数作ることを想定しています。タイムライン情報に従って、シーンごとにそれぞれのファイルを開いて、フレーム撮りをスクリーンショットによって行っていき、最終的に一つの動画としてエンコードする形となります。</p>
+<h2 class="uk-heading-line"><span>CSSアニメーションのコマ送り</span></h2><p>そして問題はCSSのアニメーションなのですが、これは時刻で指定し、ブラウザで表示するとアニメーションが動きっぱなしになります。今回、コードにするのは、再現性を高める、つまりdeterministicにするためなので、これをリアルタイムに録画するようなのは避けたいです。あくまで1フレーム1フレームを(再現性ある形で)ちゃんと描画して行きたいところです。</p>
+<p>ということで、どうしたらいいのか考えた結果、CSSの <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/animation-play-state"><code>animation-play-state</code> プロパティ</a>と、<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/animation-delay"><code>animation-delay</code> プロパティ</a>を使うことにしました。
+要は、アニメーションを初期状態でポーズした状態にしておき、1コマ動かすごとに負の<code>animation-delay</code>を各要素に与えていけばよいということになります。</p>
+<p>制約事項としては、もともとのアニメーションで<code>animation-delay</code>を使っている場合にはコンフリクトするので、なんらかの処理を必要とすることです。
+このあたりは、既存のものを使いまわすのではなく、このツールのためにcssなどを書くことになるので、まあどうにでもなるでしょう。
+(結局、このために、特定のJavaScriptの関数を提供することになるので、完全に標準に従う形にならないのが残念なところです)</p>
+<h2 class="uk-heading-line"><span>で</span></h2><p>まずは、簡単にhtmlで書いた内容を動画にしてみるところまでできたので、下記にリンクを張ります。</p>
+<p><a href="../../blog/resources/samples/29-1.html">ソースのhtmlファイル (pauseしてないので動画の生成に使ったものとは厳密に同じものではない)</a></p>
+<p><a href="../../blog/resources/samples/29-1.mp4">出来上がった動画ファイル (1920x1080, 60fps, mp4)</a></p>
+<p>プログラムはまだまだなので、もう少しちゃんと作ったら公開したいと思います。(よくない傾向)</p>
+<h2 class="uk-heading-line"><span>次のステップ</span></h2><p>今回は単純にCSSアニメーションを録画するだけでしたが、本来は動画編集なので、既存の動画を組み合わせたりするのがやりたいことです。今回のどこかのエントリでそこまでいったものを紹介したいところです。</p>
+<p>本当にこれができたかどうかは、<a href="./32.html">12月23日</a>まで読んだ各位にあっては既にご存じのことでしょう・・・というか、たったこれだけの内容でも結構妥協したポイントがいろいろあるので、推して知るべしではありますが・・。</p>
+<!--- nikory-metadata: { "image": "thumbnail-29.png", "description": "ブラウザをレンダリングエンジンとしたコードによる動画づくりを実現するための車輪の再発明の入り口", "timestamp": "2023-12-11T00:00:00+09:00", "stylesheets": ["29.css"] } -->
+</div></p></article></div></div><!----><footer class="uk-margin-auto-top"><p class="uk-text-small uk-text-muted uk-text-center">Copyright © 2018-2023 <a href="https://github.com/nikorisoft/">nikorisoft</a> - Ver.0.4.1</p></footer></div></div>
+    </body>
+</html>
